@@ -133,7 +133,7 @@ export const CodeEditor = () => {
     }, [currentCharIndex, currentTokenIndex]);
 
     return (
-        <section className="relative w-full min-h-[70vh] flex items-center justify-center bg-[#050505] overflow-hidden py-24">
+        <section className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden py-24">
 
             {/* --- Celestial Background Effects (Brand Colors: Blue/Purple) --- */}
 

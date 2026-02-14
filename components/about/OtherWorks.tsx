@@ -81,6 +81,77 @@ const works = [
     }
 ]
 
+function WorkItem({ item, index }: { item: any, index: number }) {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <div
+            className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={() => setIsHovered(!isHovered)}
+        >
+            {/* Background & Border */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-20 transition-opacity duration-300 ${isHovered ? 'opacity-30' : ''}`} />
+            <div className={`absolute inset-0 border rounded-3xl transition-colors duration-300 ${isHovered ? 'border-white/20' : 'border-white/10'}`} />
+
+            {/* Content Container */}
+            <div className="relative h-full w-full p-8 flex flex-col justify-between">
+                {/* Top: Icon & Category */}
+                <div>
+                    <div className={`mb-6 p-4 bg-white/5 rounded-2xl w-fit border border-white/10 backdrop-blur-sm transition-transform duration-500 ${isHovered ? 'scale-110' : ''}`}>
+                        {item.icon}
+                    </div>
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">
+                        {item.category}
+                    </span>
+                </div>
+
+                {/* Problem (Default View) */}
+                <div className="mb-8">
+                    <h4 className="text-sm font-semibold text-red-400 mb-2 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
+                        {item.trap}
+                    </h4>
+                    <h3 className="text-3xl font-bold text-white mb-4 leading-tight">
+                        {item.headline}
+                    </h3>
+                    <p className="text-gray-400 text-base leading-relaxed mb-4">
+                        "{item.subtext}"
+                    </p>
+                    <div className="flex items-center text-xs text-gray-500">
+                        <span className="mr-2">Click/Hover to reveal the solution</span>
+                        <Ghost size={12} />
+                    </div>
+                </div>
+            </div>
+
+            {/* Solution Slide-Up Overlay (Purple Futuristic Glow) */}
+            <div
+                className={`absolute inset-0 bg-gradient-to-t from-purple-900/90 via-black/80 to-transparent backdrop-blur-xl transition-transform duration-500 ease-out p-8 flex flex-col justify-center border-t border-purple-500/50 shadow-[0_-20px_60px_rgba(168,85,247,0.3)] ${isHovered ? 'translate-y-0' : 'translate-y-[100%]'}`}
+            >
+                {/* Noise & Glow Overlay */}
+                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
+
+                <div className="relative z-10">
+                    <div className="mb-6">
+                        <span className="text-xs font-bold text-green-400 uppercase tracking-widest flex items-center gap-2">
+                            <CheckCircle2 size={14} /> The Solution
+                        </span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-4 drop-shadow-lg">
+                        {item.solution.headline}
+                    </h3>
+                    <p className="text-gray-200 leading-relaxed text-sm font-medium">
+                        {item.solution.subtext}
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function OtherWorks() {
     return (
         <section className="py-24 bg-black relative">
@@ -96,64 +167,7 @@ export function OtherWorks() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     {works.map((item, index) => (
-                        <div
-                            key={index}
-                            className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer"
-                        >
-                            {/* Background & Border */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-20 group-hover:opacity-30 transition-opacity`} />
-                            <div className="absolute inset-0 border border-white/10 rounded-3xl group-hover:border-white/20 transition-colors" />
-
-                            {/* Content Container */}
-                            <div className="relative h-full w-full p-8 flex flex-col justify-between">
-                                {/* Top: Icon & Category */}
-                                <div>
-                                    <div className="mb-6 p-4 bg-white/5 rounded-2xl w-fit border border-white/10 backdrop-blur-sm group-hover:scale-110 transition-transform duration-500">
-                                        {item.icon}
-                                    </div>
-                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">
-                                        {item.category}
-                                    </span>
-                                </div>
-
-                                {/* Problem (Default View) */}
-                                <div className="mb-8">
-                                    <h4 className="text-sm font-semibold text-red-400 mb-2 flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
-                                        {item.trap}
-                                    </h4>
-                                    <h3 className="text-3xl font-bold text-white mb-4 leading-tight">
-                                        {item.headline}
-                                    </h3>
-                                    <p className="text-gray-400 text-base leading-relaxed">
-                                        "{item.subtext}"
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Solution Slide-Up Overlay (Purple Futuristic Glow) */}
-                            <div
-                                className="absolute inset-0 bg-gradient-to-t from-purple-900/90 via-black/80 to-transparent backdrop-blur-xl translate-y-[100%] group-hover:translate-y-0 transition-transform duration-700 ease-out p-8 flex flex-col justify-center border-t border-purple-500/50 shadow-[0_-20px_60px_rgba(168,85,247,0.3)]"
-                            >
-                                {/* Noise & Glow Overlay */}
-                                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
-                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
-
-                                <div className="relative z-10">
-                                    <div className="mb-6">
-                                        <span className="text-xs font-bold text-green-400 uppercase tracking-widest flex items-center gap-2">
-                                            <CheckCircle2 size={14} /> The Solution
-                                        </span>
-                                    </div>
-                                    <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-4 drop-shadow-lg">
-                                        {item.solution.headline}
-                                    </h3>
-                                    <p className="text-gray-200 leading-relaxed text-sm font-medium">
-                                        {item.solution.subtext}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        <WorkItem key={index} item={item} index={index} />
                     ))}
                 </div>
             </div>

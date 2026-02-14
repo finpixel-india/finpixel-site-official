@@ -73,6 +73,85 @@ const cards = [
     }
 ]
 
+function CardItem({ card }: { card: any }) {
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    return (
+        <div
+            className="group h-[380px] perspective-1000 cursor-pointer"
+            onMouseEnter={() => setIsFlipped(true)}
+            onMouseLeave={() => setIsFlipped(false)}
+            onClick={() => setIsFlipped(!isFlipped)}
+        >
+            <motion.div
+                className={`relative w-full h-full duration-500 preserve-3d md:group-hover:rotate-y-180 transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
+                style={{ transformStyle: "preserve-3d" }}
+            >
+                {/* Front Face */}
+                <div className="absolute inset-0 backface-hidden">
+                    <div className="h-full w-full p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col justify-between overflow-hidden shadow-2xl relative">
+                        <div className="absolute top-0 right-0 p-32 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
+
+                        <div>
+                            <div className="mb-4 p-3 bg-white/5 rounded-xl w-fit border border-white/10">
+                                {card.icon}
+                            </div>
+                            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block mb-2">
+                                {card.category}
+                            </span>
+                            <h3 className="text-xl font-bold text-white leading-tight">
+                                {card.headline}
+                            </h3>
+                        </div>
+
+                        <div className="relative">
+                            {card.type === 'loader' ? (
+                                <div className="mt-4">
+                                    <div className={`text-4xl font-mono text-white mb-2 transition-colors ${isFlipped ? 'text-green-400' : ''}`}>
+                                        {!isFlipped ? <span>12%</span> : <span>100%</span>}
+                                    </div>
+                                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className={`h-full transition-all duration-300 ${isFlipped ? 'w-full bg-green-500' : 'w-[12%] bg-red-500'}`} />
+                                    </div>
+                                    <div className={`mt-2 text-xs font-mono ${isFlipped ? 'text-green-400' : 'text-red-400'}`}>
+                                        {!isFlipped ? <span>Estimated time: 14s...</span> : <span className="flex items-center gap-1"><CheckCircle2 size={12} /> Loaded</span>}
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-lg text-gray-300 font-light italic">
+                                    "{card.front}"
+                                </p>
+                            )}
+
+                            <div className={`mt-6 flex items-center text-sm transition-colors ${isFlipped ? 'text-white' : 'text-gray-500'}`}>
+                                <span className="mr-2">Click/Hover to reveal the solution</span>
+                                <TrendingUp size={14} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Back Face */}
+                <div
+                    className="absolute inset-0 backface-hidden rotate-y-180"
+                    style={{ transform: "rotateY(180deg)" }}
+                >
+                    <div className="h-full w-full p-6 rounded-3xl bg-gradient-to-br from-blue-950 to-purple-950 border border-white/20 backdrop-blur-xl flex flex-col justify-center shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+                        <div className="mb-4">
+                            <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest border border-white/20 px-3 py-1 rounded-full">
+                                The Reality
+                            </span>
+                        </div>
+                        <p className="text-base text-gray-100 leading-relaxed">
+                            {card.back}
+                        </p>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
+}
+
 export function RealityCheck() {
     return (
         <section className="py-24 bg-black relative overflow-hidden">
@@ -85,77 +164,7 @@ export function RealityCheck() {
             <div className="container px-6 relative z-10 w-full max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {cards.map((card, index) => (
-                        <div key={index} className="group h-[380px] perspective-1000">
-                            <motion.div
-                                className="relative w-full h-full duration-500 preserve-3d group-hover:rotate-y-180 transition-transform"
-                                style={{ transformStyle: "preserve-3d" }}
-                            >
-                                {/* Front Face */}
-                                <div className="absolute inset-0 backface-hidden">
-                                    <div className="h-full w-full p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col justify-between overflow-hidden shadow-2xl relative">
-                                        <div className="absolute top-0 right-0 p-32 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
-
-                                        <div>
-                                            <div className="mb-4 p-3 bg-white/5 rounded-xl w-fit border border-white/10">
-                                                {card.icon}
-                                            </div>
-                                            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block mb-2">
-                                                {card.category}
-                                            </span>
-                                            <h3 className="text-xl font-bold text-white leading-tight">
-                                                {card.headline}
-                                            </h3>
-                                        </div>
-
-                                        <div className="relative">
-                                            {card.type === 'loader' ? (
-                                                <div className="mt-4">
-                                                    <div className="text-4xl font-mono text-white mb-2 group-hover:text-green-400 transition-colors">
-                                                        <span className="group-hover:hidden">12%</span>
-                                                        <span className="hidden group-hover:inline-block">100%</span>
-                                                    </div>
-                                                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                                                        <div className="h-full bg-red-500 w-[12%] group-hover:w-full group-hover:bg-green-500 transition-all duration-300" />
-                                                    </div>
-                                                    <div className="mt-2 text-xs text-red-400 group-hover:text-green-400 font-mono">
-                                                        <span className="group-hover:hidden">Estimated time: 14s...</span>
-                                                        <span className="hidden group-hover:inline-block flex items-center gap-1">
-                                                            <CheckCircle2 size={12} /> Loaded
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <p className="text-lg text-gray-300 font-light italic">
-                                                    "{card.front}"
-                                                </p>
-                                            )}
-
-                                            <div className="mt-6 flex items-center text-sm text-gray-500 group-hover:text-white transition-colors">
-                                                <span className="mr-2">Hover to reveal truth</span>
-                                                <TrendingUp size={14} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Back Face */}
-                                <div
-                                    className="absolute inset-0 backface-hidden rotate-y-180"
-                                    style={{ transform: "rotateY(180deg)" }}
-                                >
-                                    <div className="h-full w-full p-6 rounded-3xl bg-gradient-to-br from-blue-950 to-purple-950 border border-white/20 backdrop-blur-xl flex flex-col justify-center shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-                                        <div className="mb-4">
-                                            <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest border border-white/20 px-3 py-1 rounded-full">
-                                                The Reality
-                                            </span>
-                                        </div>
-                                        <p className="text-base text-gray-100 leading-relaxed">
-                                            {card.back}
-                                        </p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </div>
+                        <CardItem key={index} card={card} />
                     ))}
                 </div>
             </div>

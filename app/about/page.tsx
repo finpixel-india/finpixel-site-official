@@ -1,11 +1,17 @@
-import { AboutContent } from "@/components/about/AboutContent"
+import { AboutContent } from "@/components/about/AboutContent";
+import { GlowBackground } from "@/components/ui/GlowBackground";
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'About Finpixel India | Digital Architects of Bharat',
-    description: 'We are a remote-first web engineering studio in India, bridging the digital gap for local schools, hospitals, and businesses.',
+    title: 'About Us | Finpixel India',
+    description: 'We are a team of passionate developers and designers crafting digital experiences that matter.',
 }
 
-export default function AboutPage() {
-    return <AboutContent />
+export default function About() {
+    return (
+        <div className="relative">
+            <GlowBackground />
+            <AboutContent />
+        </div>
+    )
 }

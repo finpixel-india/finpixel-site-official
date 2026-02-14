@@ -4,6 +4,7 @@ import { Features } from "@/components/home/Features"
 import { Capabilities } from "@/components/home/Capabilities"
 import { RealityCheck } from "@/components/home/RealityCheck"
 import { Trust } from "@/components/home/Trust"
+import { GlowBackground } from "@/components/ui/GlowBackground"
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      <GlowBackground />
       <Hero />
       <CodeEditor />
       <Features />

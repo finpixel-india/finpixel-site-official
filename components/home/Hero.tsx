@@ -7,7 +7,7 @@ import HeroBackground from "@/components/3d/HeroBackground"
 
 export function Hero() {
     return (
-        <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black">
+        <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
             <HeroBackground />
 
             <div className="container relative z-10 px-6 text-center">

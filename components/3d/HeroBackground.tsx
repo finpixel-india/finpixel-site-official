@@ -168,7 +168,7 @@ const LiquidPlane = () => {
 
 export default function HeroBackground() {
     return (
-        <div className="absolute inset-0 z-0 h-full w-full bg-black pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full pointer-events-none">
             <Canvas camera={{ position: [0, 0, 2], fov: 45 }} dpr={[1, 1.5]}>
                 <LiquidPlane />
             </Canvas>

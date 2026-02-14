@@ -1,17 +1,21 @@
+
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ProcessTimeline } from "@/components/pricing/ProcessTimeline"
 import type { Metadata } from 'next'
 
+import { GlowBackground } from "@/components/ui/GlowBackground";
+import { Navbar } from "@/components/layout/Navbar";
+
 export const metadata: Metadata = {
-    title: 'Pricing | Transparent Web Development Cost',
-    description: 'Simple, transparent pricing for premium web development. No hidden fees. Pay only after satisfaction.',
+    title: 'Pricing | Finpixel India',
+    description: 'Transparent pricing for custom web development. Choose from Startup, Business, or Enterprise plans.',
 }
 
 const tiers = [
     {
         name: "Starter",
-        price: "₹3,900",
+        price: "₹4,500",
         description: "Perfect for small businesses and personal portfolios.",
         features: [
             "5 Page Website",
@@ -34,7 +38,7 @@ const tiers = [
             "Social Media Integration",
             "WhatsApp Chat Button",
             "Gallery & Testimonials",
-            "1 Month Free Maintenance",
+            "6 Month Free Maintenance",
         ],
     },
     {
@@ -48,7 +52,7 @@ const tiers = [
             "E-commerce Functionality",
             "Priority 24/7 Support",
             "Google Analytics Setup",
-            "3 Months Free Maintenance",
+            "12 Months Free Maintenance",
         ],
     },
 ]

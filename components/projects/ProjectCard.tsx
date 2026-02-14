@@ -118,11 +118,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, he
 
                         {/* Desktop Window Frame */}
                         <div
-                            className="relative w-full h-full bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl flex flex-col group-hover:scale-[1.02] transition-transform duration-500"
+                            className="relative w-full h-full bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500"
                             style={{ transform: "translateZ(20px)" }}
                         >
                             {/* Header Bar */}
-                            <div className="h-9 bg-white/5 border-b border-white/5 flex items-center justify-between px-4 backdrop-blur-md shrink-0 z-20">
+                            <div className="absolute top-0 left-0 right-0 h-9 bg-white/5 border-b border-white/5 flex items-center justify-between px-4 backdrop-blur-md z-20">
                                 <div className="flex items-center space-x-2">
                                     <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                                     <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
@@ -137,19 +137,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, he
                             </div>
 
                             {/* Iframe Content (Preview Only) */}
-                            <div className="relative flex-1 bg-white overflow-hidden pointer-events-none">
-                                <div className="w-[150%] h-[150%] origin-top-left scale-[0.666]">
-                                    <iframe
-                                        src={demoPath}
-                                        title={`${title} Demo`}
-                                        className="w-full h-full border-none"
-                                        loading="lazy"
-                                    />
-                                </div>
-
-                                {/* Overlay Gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute top-9 left-0 right-0 bottom-0 w-[400%] h-[400%] md:w-[150%] md:h-[150%] origin-top-left scale-[0.25] md:scale-[0.666]">
+                                <iframe
+                                    src={demoPath}
+                                    title={`${title} Demo`}
+                                    className="w-full h-full border-none"
+                                    loading="lazy"
+                                />
                             </div>
+
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>
                     </motion.div>
 
@@ -163,7 +160,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, he
                         <ExternalLink size={14} className="text-white/50 group-hover:text-white transition-colors ml-1" />
                     </button>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
     );
 };
