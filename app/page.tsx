@@ -8,8 +8,13 @@ import { GlowBackground } from "@/components/ui/GlowBackground"
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Finpixel India | Web Development Agency',
-  description: 'Top-rated web development agency in India creating custom, high-speed websites for schools, hotels, and businesses.',
+  title: 'Finpixel India | Premium Web Design & 3D Agency',
+  description: 'Finpixel India is a next-gen digital agency specializing in custom Next.js websites, 3D web experiences, and SEO performance. Defining every pixel with precision.',
+  openGraph: {
+    title: 'Finpixel India | Premium Web Design & 3D Agency',
+    description: 'Next-gen digital agency specializing in custom Next.js websites, 3D web experiences, and SEO performance.',
+    type: 'website',
+  },
 }
 
 export default function Home() {

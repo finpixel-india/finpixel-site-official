@@ -4,564 +4,1146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>St. Xavier's International</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400&display=swap"
-        rel="stylesheet">
+    <title>St. Xavier's International School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #FFD700;
-            /* Yellow */
-            --accent: #87CEEB;
-            /* Sky Blue */
-            --dark: #0a0a0a;
-            --light: #ffffff;
-            --glass: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.2);
+            --primary: #3b82f6;
+            --accent: #f59e0b;
+            --dark: #0a0a12;
+            --glass: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.1);
+            --radius: 16px;
         }
 
         body {
-            margin: 0;
             font-family: 'Outfit', sans-serif;
-            background: #f0f0f0;
-            color: #111;
+            background: var(--dark);
+            color: #e0e0e0;
             overflow-x: hidden;
         }
 
-        /* Navigation */
-        .nav-wrapper {
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* NAV */
+        .nav {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            padding: 20px 40px;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(10, 10, 18, 0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #000;
+            letter-spacing: 1px;
+            color: #fff;
         }
 
         .logo span {
-            color: var(--accent);
+            color: var(--primary);
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 24px;
+            align-items: center;
         }
 
-        .nav-item {
+        .nav-link {
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: .8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 8px 0;
-            position: relative;
-            color: #333;
-            transition: 0.3s;
+            color: #888;
+            transition: .3s;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
         }
 
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+            border-bottom-color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 24px;
             height: 2px;
-            background: var(--primary);
-            transition: 0.3s;
+            background: #fff;
+            transition: .3s;
         }
 
-        .nav-item:hover::after,
-        .nav-item.active::after {
-            width: 100%;
-        }
-
-        .btn-whatsapp {
+        .btn-wa {
             background: #25D366;
-            color: white;
-            padding: 10px 20px;
+            color: #fff;
+            padding: 8px 18px;
             border-radius: 50px;
             font-weight: 700;
+            font-size: .8rem;
+            border: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: 0.3s;
+            gap: 6px;
+            transition: .3s;
         }
 
-        .btn-whatsapp:hover {
+        .btn-wa:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, .3);
         }
 
-        /* Pages */
+        /* PAGES */
         .page {
             display: none;
-            padding-top: 80px;
+            padding-top: 70px;
             min-height: 100vh;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn .5s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        /* Cinematic Hero */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* HERO */
         .hero {
-            height: 90vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
-            padding: 0 10%;
-            background: #000;
+            padding: 60px 5%;
             position: relative;
             overflow: hidden;
-            color: white;
         }
 
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2670&auto=format&fit=crop');
-            background-size: cover;
-            opacity: 0.4;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80') center/cover;
+            opacity: .25;
         }
 
-        .glass-block {
+        .hero-overlay {
             position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 18, .9) 0%, rgba(59, 130, 246, .15) 100%);
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
-            max-width: 800px;
+            max-width: 700px;
         }
 
-        h1 {
-            font-size: 5rem;
-            margin: 0 0 20px;
-            line-height: 1;
+        .hero-badge {
+            display: inline-block;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: .75rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
             font-weight: 800;
-            letter-spacing: -2px;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 16px;
         }
 
-        h1 span {
+        .hero h1 em {
+            color: var(--primary);
+            font-style: normal;
+        }
+
+        .hero-desc {
+            font-size: clamp(.9rem, 2vw, 1.15rem);
+            color: #aaa;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            max-width: 550px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: .3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, .4);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .1);
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 0 5%;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 800;
             color: var(--primary);
             display: block;
         }
 
-        p.hero-text {
-            font-size: 1.2rem;
-            color: #ccc;
+        .stat-label {
+            font-size: .75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .section-sub {
+            color: #888;
+            font-size: .95rem;
             margin-bottom: 40px;
             max-width: 600px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: .3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, .1);
+        }
+
+        .glass-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .glass-card p {
+            color: #999;
+            font-size: .88rem;
             line-height: 1.6;
         }
 
-        .cta-group {
-            display: flex;
-            gap: 20px;
+        .glass-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
         }
 
-        .btn-main {
-            padding: 15px 40px;
-            background: var(--accent);
-            color: #000;
-            font-weight: 700;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
-            transition: 0.3s;
-        }
-
-        .btn-main:hover {
-            background: #fff;
-            transform: translateX(5px);
-        }
-
-        .btn-outline {
-            padding: 15px 40px;
-            background: transparent;
-            color: #fff;
-            font-weight: 700;
-            border: 1px solid #fff;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-outline:hover {
-            background: #fff;
-            color: #000;
-        }
-
-        /* Sections Generic */
-        .section-padding {
-            padding: 80px 10%;
-        }
-
-        .heading {
-            font-size: 3rem;
-            margin-bottom: 40px;
-            font-weight: 800;
-            color: #000;
-            position: relative;
-            display: inline-block;
-        }
-
-        .heading::after {
-            content: '';
-            position: absolute;
-            bottom: 10px;
-            right: -20px;
-            width: 60px;
-            height: 6px;
-            background: var(--accent);
-        }
-
-        /* Grid Layouts */
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 20px;
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            gap: 24px;
+            align-items: center;
         }
 
-        .card {
-            background: white;
+        /* TOPPER */
+        .topper {
+            background: linear-gradient(135deg, rgba(59, 130, 246, .1), rgba(245, 158, 11, .05));
+            border: 1px solid var(--border);
+            border-radius: 20px;
             padding: 40px;
-            border-radius: 0;
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-left-color: var(--accent);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin: 0 0 15px;
-        }
-
-        .card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Top Student */
-        .student-showcase {
-            background: #000;
-            color: white;
-            padding: 60px;
-            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 60px;
-            margin-top: 80px;
-            position: relative;
-            overflow: hidden;
+            gap: 30px;
+            margin-top: 40px;
         }
 
-        .student-img {
-            width: 200px;
-            height: 200px;
+        .topper img {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid var(--primary);
+            border: 3px solid var(--accent);
         }
 
-        .student-info h2 {
+        .topper h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .topper .score {
             font-size: 2.5rem;
-            margin: 0 0 10px;
-            color: var(--primary);
-        }
-
-        .student-info p {
-            font-size: 1.2rem;
-            color: #aaa;
-            margin: 0;
-        }
-
-        .marks {
-            font-size: 4rem;
             font-weight: 800;
-            color: white;
+            color: rgba(255, 255, 255, .08);
             position: absolute;
-            right: 60px;
-            opacity: 0.1;
+            right: 40px;
         }
 
-        /* Gallery */
+        /* GALLERY */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .gallery-item {
-            height: 250px;
-            background: #ddd;
-            transition: 0.3s;
+            height: 200px;
+            border-radius: var(--radius);
+            overflow: hidden;
             cursor: pointer;
         }
 
-        .gallery-item:hover {
-            transform: scale(0.95);
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+            filter: grayscale(40%);
         }
 
-        /* Footer */
-        footer {
-            background: #111;
-            color: white;
-            padding: 60px 10%;
-            margin-top: 80px;
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: grayscale(0);
         }
 
-        .footer-content {
+        /* ADMISSIONS */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--dark);
+        }
+
+        .timeline-item h4 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item p {
+            color: #888;
+            font-size: .85rem;
+            line-height: 1.6;
+        }
+
+        /* CONTACT */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .8rem;
+            color: #888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: .9rem;
+            outline: none;
+            transition: .3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, .15);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .contact-info-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+
+        .contact-info-card h3 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
             display: flex;
-            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        .info-item .label {
+            font-size: .75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-item .value {
+            color: #fff;
+            font-size: .95rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(0, 0, 0, .5);
+            border-top: 1px solid var(--border);
+            padding: 40px 5%;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: .9rem;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #888;
+            font-size: .85rem;
+            line-height: 1.8;
+            display: block;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            color: #555;
+            font-size: .8rem;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+            .hamburger {
+                display: flex;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(10, 10, 18, .97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px;
+                gap: 20px;
+                transition: .4s;
+                border-left: 1px solid var(--border);
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .topper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .topper .score {
+                display: none;
+            }
+
+            .hero {
+                min-height: 80vh;
+                padding-top: 80px;
             }
         }
 
-        /* Floating Blocks Animation */
-        .block-1 {
-            top: 20%;
-            right: 10%;
-            width: 300px;
-            height: 300px;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        .block-2 {
-            bottom: 10%;
-            left: 5%;
-            width: 200px;
-            height: 200px;
-            animation: float 8s infinite ease-in-out reverse;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
+        @media(max-width:480px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
             }
 
-            50% {
-                transform: translateY(-20px) rotate(5deg);
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
             }
 
-            100% {
-                transform: translateY(0) rotate(0deg);
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-row {
+                flex-direction: column;
+            }
+
+            .cta-row .btn {
+                text-align: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="nav-wrapper">
+    <nav class="nav">
         <div class="logo">St. <span>Xavier's</span></div>
-        <div class="nav-links">
-            <div class="nav-item active" onclick="nav('home', this)">Home</div>
-            <div class="nav-item" onclick="nav('about', this)">About</div>
-            <div class="nav-item" onclick="nav('academics', this)">Academics</div>
-            <div class="nav-item" onclick="nav('admissions', this)">Admissions</div>
-            <div class="nav-item" onclick="nav('gallery', this)">Gallery</div>
-            <div class="nav-item" onclick="nav('contact', this)">Contact</div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-link active" onclick="nav('home',this)">Home</div>
+            <div class="nav-link" onclick="nav('about',this)">About</div>
+            <div class="nav-link" onclick="nav('academics',this)">Academics</div>
+            <div class="nav-link" onclick="nav('admissions',this)">Admissions</div>
+            <div class="nav-link" onclick="nav('gallery',this)">Gallery</div>
+            <div class="nav-link" onclick="nav('contact',this)">Contact</div>
+            <button class="btn-wa" onclick="window.open('https://wa.me/919998887777')">📱 WhatsApp Us</button>
         </div>
-        <div class="btn-whatsapp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                <path
-                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-            </svg>
-            WhatsApp Us
-        </div>
-    </div>
+        <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
 
-    <!-- Home Page -->
+    <!-- HOME -->
     <div id="home" class="page active">
         <section class="hero">
             <div class="hero-bg"></div>
-            <div class="glass-block block-1"></div>
-            <div class="glass-block block-2"></div>
-
+            <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Shaping Future <br><span>Leaders</span></h1>
-                <p class="hero-text">St. Xavier's International provides world-class education with a focus on holistic
-                    development, innovation, and integrity.</p>
-                <div class="cta-group">
-                    <button class="btn-main">Apply for 2026</button>
-                    <button class="btn-outline">Virtual Tour</button>
+                <div class="hero-badge">🏆 CBSE Affiliated • Est. 1985</div>
+                <h1>Shaping Future <em>Leaders</em></h1>
+                <p class="hero-desc">St. Xavier's International provides world-class education with a focus on holistic
+                    development, innovation, and integrity. Preparing students for a global tomorrow.</p>
+                <div class="cta-row">
+                    <button class="btn btn-primary"
+                        onclick="nav('admissions',document.querySelectorAll('.nav-link')[3])">Apply for 2026</button>
+                    <button class="btn btn-outline"
+                        onclick="nav('gallery',document.querySelectorAll('.nav-link')[4])">Virtual Tour</button>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding">
-            <div class="heading">About Our School</div>
+        <div class="stats">
+            <div class="stat-card"><span class="stat-num">38+</span><span class="stat-label">Years of Excellence</span>
+            </div>
+            <div class="stat-card"><span class="stat-num">5000+</span><span class="stat-label">Students</span></div>
+            <div class="stat-card"><span class="stat-num">200+</span><span class="stat-label">Faculty Members</span>
+            </div>
+            <div class="stat-card"><span class="stat-num">99.4%</span><span class="stat-label">Top Result</span></div>
+        </div>
+
+        <section class="section">
+            <div class="section-title">Why Choose Xavier's?</div>
+            <p class="section-sub">A tradition of academic excellence combined with modern facilities and global
+                exposure.</p>
+            <div class="grid-3">
+                <div class="glass-card"><span class="icon">📚</span>
+                    <h3>CBSE & IB Curriculum</h3>
+                    <p>Dual-board flexibility with emphasis on STEM and Liberal Arts for holistic growth.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🏊</span>
+                    <h3>World-class Sports</h3>
+                    <p>Olympic-size swimming pool, international football turf, indoor stadium & cricket academy.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🤖</span>
+                    <h3>Innovation Labs</h3>
+                    <p>Dedicated robotics labs, AI workshops, coding bootcamps, and maker spaces for every student.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🎭</span>
+                    <h3>Performing Arts</h3>
+                    <p>State-of-the-art auditorium with music rooms, dance studios, and annual theatre festival.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🌍</span>
+                    <h3>Global Exposure</h3>
+                    <p>Exchange programs with 15+ international schools in UK, USA, Japan, and Australia.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🛡️</span>
+                    <h3>Safe Campus</h3>
+                    <p>CCTV-monitored campus with GPS-tracked buses, digital attendance, and parent app.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="position:relative;">
+            <div class="section-title">Board Topper 2025</div>
+            <div class="topper">
+                <img src="https://images.unsplash.com/photo-1491013516836-7dbc643ea76d?w=400&q=80" alt="topper">
+                <div>
+                    <p style="font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:2px;">Science Stream
+                    </p>
+                    <h3>Rohan Das</h3>
+                    <p style="color:#ccc;">99.4% Aggregate — "The faculty at St. Xavier's pushed me to achieve my best.
+                        Forever grateful for the mentorship."</p>
+                </div>
+                <div class="score">99.4%</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">Campus Life</div>
+            <p class="section-sub">Where learning goes beyond classrooms — a vibrant ecosystem of sports, culture, and
+                creativity.</p>
+            <div class="grid-3" style="gap:12px;">
+                <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=500&q=70" alt="science lab"
+                        style="width:100%;height:100%;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-weight:600;font-size:.85rem;">
+                        🔬 Advanced Science Labs</div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=500&q=70" alt="library"
+                        style="width:100%;height:100%;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-weight:600;font-size:.85rem;">
+                        📖 Digital Library</div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&q=70" alt="sports"
+                        style="width:100%;height:100%;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-weight:600;font-size:.85rem;">
+                        🏀 Indoor Sports Arena</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">What Parents Say</div>
+            <div class="grid-2" style="gap:20px;">
+                <div class="glass-card" style="padding:24px;border-left:3px solid var(--primary);">
+                    <p style="font-style:italic;color:#bbb;line-height:1.7;margin-bottom:12px;">"My daughter has
+                        blossomed at Xavier's. The teachers genuinely care about each child's growth — not just grades,
+                        but confidence, creativity, and character."</p>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div
+                            style="width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;">
+                            P</div>
+                        <div><strong style="color:#fff;">Priya Sharma</strong><br><span
+                                style="font-size:.75rem;color:#888;">Parent — Grade 8</span></div>
+                    </div>
+                </div>
+                <div class="glass-card" style="padding:24px;border-left:3px solid var(--accent);">
+                    <p style="font-style:italic;color:#bbb;line-height:1.7;margin-bottom:12px;">"The robotics program
+                        opened my son's mind to engineering. He won the National Science Olympiad last year. The labs
+                        and faculty are exceptional."</p>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div
+                            style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;">
+                            A</div>
+                        <div><strong style="color:#fff;">Ankit Mehra</strong><br><span
+                                style="font-size:.75rem;color:#888;">Parent — Grade 11</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Upcoming Events</div>
+            <div class="grid-3">
+                <div class="glass-card" style="text-align:center;padding:28px 20px;">
+                    <div style="font-size:2rem;margin-bottom:8px;">🎭</div>
+                    <h3 style="margin-bottom:6px;">Annual Day 2026</h3>
+                    <p style="color:var(--primary);font-size:.8rem;font-weight:600;margin-bottom:6px;">March 15, 2026
+                    </p>
+                    <p style="font-size:.82rem;color:#999;">Drama, dance, and music performances by students of all
+                        grades.</p>
+                </div>
+                <div class="glass-card" style="text-align:center;padding:28px 20px;">
+                    <div style="font-size:2rem;margin-bottom:8px;">🏆</div>
+                    <h3 style="margin-bottom:6px;">Inter-School Sports Meet</h3>
+                    <p style="color:var(--primary);font-size:.8rem;font-weight:600;margin-bottom:6px;">April 5–7, 2026
+                    </p>
+                    <p style="font-size:.82rem;color:#999;">Athletics, swimming, basketball, and cricket — competing
+                        with 20+ schools.</p>
+                </div>
+                <div class="glass-card" style="text-align:center;padding:28px 20px;">
+                    <div style="font-size:2rem;margin-bottom:8px;">🔬</div>
+                    <h3 style="margin-bottom:6px;">Science Exhibition</h3>
+                    <p style="color:var(--primary);font-size:.8rem;font-weight:600;margin-bottom:6px;">April 22, 2026
+                    </p>
+                    <p style="font-size:.82rem;color:#999;">Innovation showcases, working models, and live experiments
+                        by students.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;text-align:center;">
+            <div class="glass-card"
+                style="padding:48px 30px;background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(245,158,11,.1));border:1px solid rgba(59,130,246,.3);">
+                <h2 style="color:#fff;font-size:1.8rem;margin-bottom:12px;">Ready to Join the Xavier's Family?</h2>
+                <p style="color:#aaa;max-width:500px;margin:0 auto 24px;line-height:1.6;">Admissions for 2026–27 are now
+                    open. Limited seats available across all grades.</p>
+                <button class="btn btn-primary"
+                    onclick="nav('admissions',document.querySelectorAll('.nav-link')[3])">Apply Now →</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="about" class="page">
+        <section class="section">
+            <div class="section-title">About Our School</div>
+            <p class="section-sub">Established in 1985, St. Xavier's International has been a pioneer in quality
+                education.</p>
             <div class="grid-2">
                 <div>
-                    <h3 style="font-size: 2rem; margin-bottom: 20px;">Excellence since 1985</h3>
-                    <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">St. Xavier's has been a pioneer in
-                        quality education. We believe in nurturing not just students, but future leaders who are
-                        compassionate, critical thinkers, and global citizens.</p>
+                    <h3 style="color:#fff;font-size:1.5rem;margin-bottom:16px;">Excellence Since 1985</h3>
+                    <p style="line-height:1.8;color:#aaa;margin-bottom:16px;">St. Xavier's International has transformed
+                        thousands of young minds into global leaders. With a sprawling 15-acre campus in the heart of
+                        the city, we offer an environment that fosters curiosity, creativity, and character.</p>
+                    <p style="line-height:1.8;color:#aaa;margin-bottom:16px;">Our dual-board system (CBSE & IB) gives
+                        students the flexibility to choose pathways that align with their strengths and aspirations.
+                        Whether it's engineering, medicine, arts, or entrepreneurship — Xavier's prepares you for it
+                        all.</p>
+                    <div style="display:flex;gap:20px;margin-top:20px;">
+                        <div class="glass-card" style="flex:1;text-align:center;"><span class="stat-num"
+                                style="font-size:1.5rem;">15</span><span class="stat-label">Acre Campus</span></div>
+                        <div class="glass-card" style="flex:1;text-align:center;"><span class="stat-num"
+                                style="font-size:1.5rem;">A++</span><span class="stat-label">NAAC Grade</span></div>
+                    </div>
                 </div>
                 <div>
-                    <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        style="width: 100%; border-radius: 20px; box-shadow: 20px 20px 0 var(--primary);">
+                    <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=700&q=80"
+                        style="width:100%;border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover;" alt="campus">
                 </div>
-            </div>
-
-            <div class="student-showcase" style="margin-top: 100px;">
-                <img src="https://images.unsplash.com/photo-1491013516836-7dbc643ea76d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                    class="student-img">
-                <div class="student-info">
-                    <div style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Topper of 2025</div>
-                    <h2>Rohan Das</h2>
-                    <p>Science Stream • 99.4% Aggregate</p>
-                    <p style="margin-top: 10px; font-size: 1rem; color: #888;">"The faculty at St. Xavier's pushed me to
-                        achieve my best."</p>
-                </div>
-                <div class="marks">99.4%</div>
             </div>
         </section>
-
-        <section class="section-padding" style="background: #e0e0e0;">
-            <div class="heading">Highlights</div>
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Our Values</div>
             <div class="grid-3">
-                <div class="card">
-                    <h3>Academics</h3>
-                    <p>CBSE & IB Curriculum with a focus on STEM and Liberal Arts.</p>
+                <div class="glass-card"><span class="icon">🎯</span>
+                    <h3>Integrity</h3>
+                    <p>We cultivate honesty and moral courage in every student, building a foundation of ethical
+                        leadership.</p>
                 </div>
-                <div class="card">
-                    <h3>Sports</h3>
-                    <p>Olympic-size pool, football turf, and indoor stadium.</p>
+                <div class="glass-card"><span class="icon">🧠</span>
+                    <h3>Critical Thinking</h3>
+                    <p>Our pedagogy encourages questioning, analysis, and independent thought over rote memorization.
+                    </p>
                 </div>
-                <div class="card">
-                    <h3>Innovation</h3>
-                    <p>Robotics labs, AI workshops, and coding bootcamps.</p>
+                <div class="glass-card"><span class="icon">🤝</span>
+                    <h3>Community</h3>
+                    <p>Regular social service programs, village adoption projects, and environmental conservation
+                        drives.</p>
                 </div>
             </div>
         </section>
-
-        <section class="section-padding" style="text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Ready to join?</h2>
-            <button class="btn-main" style="background: #000; color: white;">Contact Admissions</button>
-        </section>
     </div>
 
-    <!-- Academics Page -->
+    <!-- ACADEMICS -->
     <div id="academics" class="page">
-        <section class="section-padding">
-            <div class="heading">Academic Curriculum</div>
-            <p>We offer a blended curriculum that prepares students for global challenges.</p>
-            <div class="grid-2" style="margin-top: 40px;">
-                <div class="card">
-                    <h3>Primary Years</h3>
-                    <p>Focus on foundational literacy, numeracy, and curiosity-driven learning.</p>
+        <section class="section">
+            <div class="section-title">Academic Programs</div>
+            <p class="section-sub">A blended curriculum designed to prepare students for global challenges.</p>
+            <div class="grid-2" style="margin-bottom:40px;">
+                <div class="glass-card">
+                    <h3>🌱 Primary Years (Grade 1-5)</h3>
+                    <p>Focus on foundational literacy, numeracy, and curiosity-driven learning. Activity-based teaching
+                        with emphasis on storytelling, art, and nature exploration.</p>
+                    <ul style="margin-top:12px;padding-left:20px;color:#999;font-size:.85rem;line-height:2;">
+                        <li>Play-based Learning Methodology</li>
+                        <li>Introduction to Coding & Robotics</li>
+                        <li>Language Labs (English, Hindi, French)</li>
+                        <li>Environmental Science Projects</li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <h3>Middle Years</h3>
-                    <p>Project-based learning, introduction to specialized sciences and arts.</p>
+                <div class="glass-card">
+                    <h3>📐 Middle Years (Grade 6-8)</h3>
+                    <p>Project-based learning with introduction to specialized sciences and arts. Students develop
+                        research skills and collaborative problem-solving abilities.</p>
+                    <ul style="margin-top:12px;padding-left:20px;color:#999;font-size:.85rem;line-height:2;">
+                        <li>STEM Lab & Maker Spaces</li>
+                        <li>Inter-school Debate & MUN</li>
+                        <li>Music, Dance & Visual Arts</li>
+                        <li>Annual Science Exhibition</li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <h3>Senior Years</h3>
-                    <p>Rigorous preparation for board exams and competitive entrance tests.</p>
+                <div class="glass-card">
+                    <h3>🎓 Senior Years (Grade 9-10)</h3>
+                    <p>Rigorous preparation for board exams and competitive entrance tests. Personalized mentoring and
+                        career counselling for every student.</p>
+                    <ul style="margin-top:12px;padding-left:20px;color:#999;font-size:.85rem;line-height:2;">
+                        <li>CBSE Board Preparation</li>
+                        <li>Olympiad Coaching (Math, Science)</li>
+                        <li>Internship Opportunities</li>
+                        <li>Leadership Development Program</li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <h3>Co-Curricular</h3>
-                    <p>Debate, Drama, Music, and Community Service integrated into the day.</p>
+                <div class="glass-card">
+                    <h3>🚀 Senior Secondary (Grade 11-12)</h3>
+                    <p>Streams: Science (PCM/PCB), Commerce, Humanities. Advanced labs, SAT/ACT prep, and university
+                        placement support.</p>
+                    <ul style="margin-top:12px;padding-left:20px;color:#999;font-size:.85rem;line-height:2;">
+                        <li>Science, Commerce & Humanities Streams</li>
+                        <li>JEE / NEET / CLAT Coaching</li>
+                        <li>SAT & IELTS Preparation</li>
+                        <li>University Counselling Cell</li>
+                    </ul>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Gallery Page -->
-    <div id="gallery" class="page">
-        <section class="section-padding">
-            <div class="heading">Campus Life Gallery</div>
-            <div class="gallery-grid" style="margin-top: 40px;">
-                <div class="gallery-item"
-                    style="background: url('https://images.unsplash.com/photo-1577896334614-5930268571fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60') center/cover;">
-                </div>
-                <div class="gallery-item"
-                    style="background: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60') center/cover;">
-                </div>
-                <div class="gallery-item"
-                    style="background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60') center/cover;">
-                </div>
-                <div class="gallery-item"
-                    style="background: url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60') center/cover;">
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Placeholders -->
-    <div id="about" class="page">
-        <section class="section-padding">
-            <h1>About Us Content Coming Soon</h1>
-        </section>
-    </div>
+    <!-- ADMISSIONS -->
     <div id="admissions" class="page">
-        <section class="section-padding">
-            <h1>Admissions Content Coming Soon</h1>
+        <section class="section">
+            <div class="section-title">Admissions 2026-27</div>
+            <p class="section-sub">Applications are now open for the academic year 2026-27. Here's how to get started.
+            </p>
+            <div class="grid-2">
+                <div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>Step 1 — Online Registration</h4>
+                            <p>Fill the online application form on our portal with student and parent details. Upload
+                                passport-size photo and Aadhaar.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Step 2 — Entrance Assessment</h4>
+                            <p>Age-appropriate assessment in English, Mathematics and General Awareness. Duration: 90
+                                minutes.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Step 3 — Interaction Round</h4>
+                            <p>A short interaction with the student and parents to understand goals, interests, and
+                                expectations.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Step 4 — Fee Payment & Enrollment</h4>
+                            <p>Upon selection, complete the fee payment within 15 days to confirm admission. Installment
+                                plans available.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="glass-card">
+                        <h3>📋 Fee Structure (Annual)</h3>
+                        <div style="margin-top:16px;">
+                            <div
+                                style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <span style="color:#ccc;">Grade 1–5</span><span
+                                    style="color:var(--accent);font-weight:700;">₹85,000</span>
+                            </div>
+                            <div
+                                style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <span style="color:#ccc;">Grade 6–8</span><span
+                                    style="color:var(--accent);font-weight:700;">₹1,05,000</span>
+                            </div>
+                            <div
+                                style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <span style="color:#ccc;">Grade 9–10</span><span
+                                    style="color:var(--accent);font-weight:700;">₹1,25,000</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;padding:10px 0;"><span
+                                    style="color:#ccc;">Grade 11–12</span><span
+                                    style="color:var(--accent);font-weight:700;">₹1,45,000</span></div>
+                        </div>
+                        <p style="margin-top:16px;font-size:.8rem;color:#666;">* Transport, uniform & books are charged
+                            separately. Sibling discount: 10%.</p>
+                    </div>
+                    <div class="glass-card" style="margin-top:16px;">
+                        <h3>📅 Important Dates</h3>
+                        <div style="margin-top:12px;font-size:.9rem;color:#aaa;line-height:2;">
+                            <div>📌 Registration Opens — <strong style="color:#fff;">March 1, 2026</strong></div>
+                            <div>📌 Entrance Test — <strong style="color:#fff;">April 15, 2026</strong></div>
+                            <div>📌 Results — <strong style="color:#fff;">April 30, 2026</strong></div>
+                            <div>📌 Session Begins — <strong style="color:#fff;">June 15, 2026</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
+
+    <!-- GALLERY -->
+    <div id="gallery" class="page">
+        <section class="section">
+            <div class="section-title">Campus Gallery</div>
+            <p class="section-sub">A glimpse into the vibrant life at St. Xavier's International.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1577896334614-5930268571fa?w=500&q=70" alt="campus">
+                </div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=70" alt="classroom">
+                </div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=70" alt="library">
+                </div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&q=70" alt="sports"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=500&q=70" alt="lab"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=500&q=70" alt="event"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=500&q=70" alt="art"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1564429238961-bf8ee3a89782?w=500&q=70" alt="playground">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT -->
     <div id="contact" class="page">
-        <section class="section-padding">
-            <h1>Contact Content Coming Soon</h1>
+        <section class="section">
+            <div class="section-title">Contact Us</div>
+            <p class="section-sub">We'd love to hear from you. Reach out for admissions inquiries or campus visits.</p>
+            <div class="contact-grid">
+                <div>
+                    <div class="form-group"><label>Parent / Guardian Name</label><input type="text"
+                            placeholder="Enter full name"></div>
+                    <div class="form-group"><label>Email Address</label><input type="email"
+                            placeholder="your@email.com"></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                    <div class="form-group"><label>Admission For</label>
+                        <select>
+                            <option>Select Grade</option>
+                            <option>Grade 1-5</option>
+                            <option>Grade 6-8</option>
+                            <option>Grade 9-10</option>
+                            <option>Grade 11-12</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Message</label><textarea
+                            placeholder="Your query or message..."></textarea></div>
+                    <button class="btn btn-primary" style="width:100%;">Send Enquiry</button>
+                </div>
+                <div class="contact-info-card">
+                    <h3>📍 Campus Address</h3>
+                    <div class="info-item">
+                        <div>
+                            <div class="label">Address</div>
+                            <div class="value">12, Park Avenue, Education Hub, Tech City - 800001</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <div class="label">Phone</div>
+                            <div class="value">+91 999 888 7777</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <div class="label">Email</div>
+                            <div class="value">admissions@stxaviers.edu</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <div class="label">Office Hours</div>
+                            <div class="value">Mon–Sat: 8:00 AM – 4:00 PM</div>
+                        </div>
+                    </div>
+                    <div
+                        style="margin-top:20px;padding:16px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:12px;">
+                        <p style="color:#25D366;font-weight:700;font-size:.9rem;margin:0;">💬 Quick Response on WhatsApp
+                        </p>
+                        <p style="color:#aaa;font-size:.8rem;margin-top:4px;">Message us directly for instant support
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 
     <footer>
-        <div class="footer-content">
-            <div>
-                <h3>St. Xavier's International</h3>
-                <p>12, Park Avenue, Tech City</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>St. Xavier's International</h4>
+                <p>Nurturing future leaders since 1985. A CBSE & IB affiliated institution committed to holistic
+                    education, innovation, and character building.</p>
             </div>
-            <div>
-                <p>admissions@stxaviers.edu</p>
-                <p>+91 999 888 7777</p>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#" onclick="nav('about',document.querySelectorAll('.nav-link')[1])">About Us</a>
+                <a href="#" onclick="nav('academics',document.querySelectorAll('.nav-link')[2])">Academics</a>
+                <a href="#" onclick="nav('admissions',document.querySelectorAll('.nav-link')[3])">Admissions</a>
+                <a href="#" onclick="nav('gallery',document.querySelectorAll('.nav-link')[4])">Gallery</a>
             </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>📞 +91 999 888 7777</p>
+                <p>✉️ admissions@stxaviers.edu</p>
+                <p>📍 Tech City, India</p>
+            </div>
+            <div class="footer-col">
+                <h4>Hours</h4>
+                <p>Mon – Fri: 8 AM – 4 PM</p>
+                <p>Saturday: 8 AM – 1 PM</p>
+                <p>Sunday: Closed</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 St. Xavier's International School. All Rights Reserved. | Crafted by
+            <strong>Finpixel India</strong>
         </div>
     </footer>
 
@@ -569,9 +1151,12 @@
         function nav(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(m => m.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('navLinks').classList.remove('open');
         }
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
     </script>
 </body>
 

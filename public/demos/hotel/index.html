@@ -4,89 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Grand Horizon</title>
+    <title>The Grand Horizon — Luxury Hotel</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;700&display=swap"
         rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --gold: #D4AF37;
-            --black: #000000;
-            --white: #ffffff;
+            --gold: #c9a84c;
+            --dark: #060608;
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 14px;
         }
 
         body {
-            margin: 0;
             font-family: 'Montserrat', sans-serif;
-            background: #000;
-            color: #fff;
+            background: var(--dark);
+            color: #ccc;
             overflow-x: hidden;
         }
 
-        /* Floating Nav */
-        nav {
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* NAV */
+        .nav {
             position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
+            background: rgba(6, 6, 8, .7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #fff;
         }
 
-        .menu-items {
+        .nav-links {
             display: flex;
-            gap: 40px;
+            gap: 28px;
+            align-items: center;
         }
 
-        .menu-item {
+        .nav-link {
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 0.7rem;
+            font-size: .68rem;
             letter-spacing: 2px;
-            transition: 0.3s;
-            color: #fff;
+            color: #888;
+            transition: .3s;
+            padding: 6px 0;
             position: relative;
         }
 
-        .menu-item::after {
+        .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 1px;
             background: #fff;
-            transition: 0.3s;
+            transition: .3s;
         }
 
-        .menu-item:hover::after,
-        .menu-item.active::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #fff;
+            transition: .3s;
         }
 
         .btn-book {
             border: 1px solid #fff;
-            padding: 10px 30px;
+            padding: 8px 22px;
             text-transform: uppercase;
-            font-size: 0.7rem;
+            font-size: .68rem;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: .3s;
             background: transparent;
             color: #fff;
+            border-radius: 2px;
         }
 
         .btn-book:hover {
@@ -94,18 +129,32 @@
             color: #000;
         }
 
-        /* Smooth Pages */
+        /* PAGES */
         .page {
             display: none;
             min-height: 100vh;
-            animation: fadeReveal 1s ease-out;
+            animation: fadeReveal .8s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        /* Hero */
+        @keyframes fadeReveal {
+            from {
+                opacity: 0;
+                filter: blur(5px);
+                transform: scale(1.02)
+            }
+
+            to {
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1)
+            }
+        }
+
+        /* HERO */
         .hero {
             height: 100vh;
             position: relative;
@@ -117,77 +166,86 @@
             overflow: hidden;
         }
 
-        .video-bg {
+        .hero-bg {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6;
+            opacity: .45;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(6, 6, 8, .3) 0%, rgba(6, 6, 8, .8) 100%);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(.7rem, 1.2vw, .9rem);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            position: relative;
+            z-index: 10;
+            margin-bottom: 12px;
         }
 
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: 6vw;
-            margin: 0;
+            font-size: clamp(2.5rem, 7vw, 5rem);
             line-height: 1;
             position: relative;
             z-index: 10;
             font-style: italic;
+            color: #fff;
         }
 
-        .hero-subtitle {
-            font-size: 1rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+        .booking-bar {
             position: relative;
             z-index: 10;
-            color: var(--gold);
-        }
-
-        .floating-booking {
-            position: absolute;
-            bottom: 50px;
             display: flex;
-            gap: 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, .15);
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, .03);
+            margin-top: 50px;
+            flex-wrap: wrap;
         }
 
         .booking-field {
-            padding: 15px 30px;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 24px;
+            border-right: 1px solid rgba(255, 255, 255, .1);
             text-align: left;
-            min-width: 150px;
+            min-width: 130px;
         }
 
         .booking-label {
-            font-size: 0.6rem;
+            font-size: .6rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--gold);
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .booking-value {
-            font-size: 0.9rem;
+            font-size: .85rem;
             font-family: 'Playfair Display', serif;
+            color: #fff;
         }
 
         .booking-btn {
-            background: var(--white);
-            color: var(--black);
+            background: #fff;
+            color: #000;
             border: none;
-            padding: 0 40px;
+            padding: 0 30px;
             font-family: 'Montserrat';
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: .3s;
+            font-size: .7rem;
         }
 
         .booking-btn:hover {
@@ -195,125 +253,515 @@
             color: #fff;
         }
 
-        /* Grid Layouts */
+        /* SECTION */
+        .section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .section-sub {
+            color: #888;
+            font-size: .88rem;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: .3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(201, 168, 76, .08);
+        }
+
+        .glass-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .glass-card p {
+            color: #999;
+            font-size: .85rem;
+            line-height: 1.6;
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            height: 100vh;
+            gap: 30px;
+            align-items: center;
         }
 
-        .img-col {
-            height: 100%;
-            object-fit: cover;
-            width: 100%;
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
-        .text-col {
-            padding: 100px;
+        /* PHILOSOPHY */
+        .philosophy {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 70vh;
+        }
+
+        .phil-text {
+            padding: 60px 5%;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #0a0a0a;
+            background: rgba(10, 10, 12, .9);
         }
 
-        h2 {
+        .phil-text h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            margin: 0 0 30px;
-            font-weight: 400;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
             color: var(--gold);
+            margin-bottom: 16px;
         }
 
-        p {
-            line-height: 2;
+        .phil-text p {
             color: #999;
-            margin-bottom: 40px;
+            line-height: 2;
             font-weight: 300;
+            margin-bottom: 24px;
         }
 
-        .feature-list {
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .feature h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .feature p {
+            font-size: .8rem;
+            margin: 0;
+            color: #888;
+        }
+
+        .phil-img {
+            background: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000&q=80') center/cover;
+            min-height: 400px;
+        }
+
+        /* ROOMS */
+        .room-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: .3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+        }
+
+        .room-img {
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .room-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .room-card:hover .room-img img {
+            transform: scale(1.08);
+        }
+
+        .room-info {
+            padding: 24px;
+        }
+
+        .room-info h3 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .room-price {
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .room-amenities {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .amenity {
+            font-size: .7rem;
+            background: rgba(255, 255, 255, .05);
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #aaa;
+            border: 1px solid var(--border);
+        }
+
+        /* DINING */
+        .dining-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: .3s;
+        }
+
+        .dining-card:hover {
+            border-color: var(--gold);
+        }
+
+        .dining-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .dining-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dining-info {
+            padding: 20px;
+        }
+
+        .dining-info h3 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .dining-info .hours {
+            color: var(--gold);
+            font-size: .75rem;
+            margin-bottom: 8px;
+        }
+
+        .dining-info p {
+            color: #888;
+            font-size: .83rem;
+            line-height: 1.6;
+        }
+
+        /* EXPERIENCES */
+        .exp-card {
+            background: linear-gradient(135deg, rgba(201, 168, 76, .05), rgba(255, 255, 255, .02));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: .3s;
+        }
+
+        .exp-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+
+        .exp-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .exp-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .exp-card p {
+            color: #888;
+            font-size: .85rem;
+            line-height: 1.6;
+        }
+
+        /* CONTACT */
+        .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
 
-        .feature h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            margin: 0 0 10px;
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .68rem;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             color: #fff;
+            font-family: inherit;
+            font-size: .88rem;
+            outline: none;
+            transition: .3s;
         }
 
-        .feature p {
-            font-size: 0.8rem;
-            margin: 0;
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201, 168, 76, .1);
         }
 
-        @keyframes fadeReveal {
-            from {
-                opacity: 0;
-                filter: blur(10px);
-                transform: scale(1.05);
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: .3s;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 0 25px rgba(201, 168, 76, .3);
+        }
+
+        .contact-info {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+
+        .contact-info h3 {
+            color: #fff;
+            margin-bottom: 16px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .ci {
+            margin-bottom: 12px;
+        }
+
+        .ci .lbl {
+            font-size: .68rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ci .val {
+            color: #fff;
+            font-size: .88rem;
+            margin-top: 2px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(0, 0, 0, .5);
+            border-top: 1px solid var(--border);
+            padding: 40px 5%;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: .85rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-col p {
+            color: #888;
+            font-size: .82rem;
+            line-height: 1.8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            padding-top: 16px;
+            text-align: center;
+            color: #555;
+            font-size: .78rem;
+        }
+
+        @media(max-width:768px) {
+            .hamburger {
+                display: flex;
             }
 
-            to {
-                opacity: 1;
-                filter: blur(0);
-                transform: scale(1);
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(6, 6, 8, .97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px;
+                gap: 18px;
+                transition: .4s;
+                border-left: 1px solid var(--border);
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: .85rem;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2,
+            .philosophy {
+                grid-template-columns: 1fr;
+            }
+
+            .room-img {
+                height: 200px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-bar {
+                flex-direction: column;
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .booking-field {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+                padding: 10px 16px;
+            }
+
+            .booking-btn {
+                padding: 14px;
+                width: 100%;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 
 <body>
-    <nav>
+    <nav class="nav">
         <div class="logo">Grand Horizon</div>
-        <div class="menu-items">
-            <div class="menu-item active" onclick="nav('home', this)">Home</div>
-            <div class="menu-item" onclick="nav('rooms', this)">Rooms</div>
-            <div class="menu-item" onclick="nav('dining', this)">Dining</div>
-            <div class="menu-item" onclick="nav('experiences', this)">Experiences</div>
-            <div class="menu-item" onclick="nav('contact', this)">Contact</div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-link active" onclick="nav('home',this)">Home</div>
+            <div class="nav-link" onclick="nav('rooms',this)">Rooms</div>
+            <div class="nav-link" onclick="nav('dining',this)">Dining</div>
+            <div class="nav-link" onclick="nav('experiences',this)">Experiences</div>
+            <div class="nav-link" onclick="nav('contact',this)">Contact</div>
+            <button class="btn-book">Reserve</button>
         </div>
-        <button class="btn-book">Reserve</button>
+        <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     </nav>
 
-    <!-- Home -->
+    <!-- HOME -->
     <div id="home" class="page active">
         <section class="hero">
-            <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=2649&auto=format&fit=crop"
-                class="video-bg">
-            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3);"></div>
-
+            <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1400&q=80" class="hero-bg"
+                alt="hotel">
+            <div class="hero-overlay"></div>
             <div class="hero-subtitle">The Art of Luxury</div>
-            <div class="hero-title">Redefining <br>Paradise.</div>
-
-            <div class="floating-booking">
-                <div class="booking-field">
-                    <span class="booking-label">Arrival</span>
-                    <span class="booking-value">Oct 24, 2026</span>
-                </div>
-                <div class="booking-field">
-                    <span class="booking-label">Departure</span>
-                    <span class="booking-value">Oct 30, 2026</span>
-                </div>
-                <div class="booking-field">
-                    <span class="booking-label">Guests</span>
-                    <span class="booking-value">2 Adults</span>
-                </div>
+            <div class="hero-title">Redefining<br>Paradise.</div>
+            <div class="booking-bar">
+                <div class="booking-field"><span class="booking-label">Arrival</span><span class="booking-value">Oct 24,
+                        2026</span></div>
+                <div class="booking-field"><span class="booking-label">Departure</span><span class="booking-value">Oct
+                        30, 2026</span></div>
+                <div class="booking-field"><span class="booking-label">Guests</span><span class="booking-value">2
+                        Adults</span></div>
+                <div class="booking-field"><span class="booking-label">Room Type</span><span
+                        class="booking-value">Suite</span></div>
                 <button class="booking-btn">Check Availability</button>
             </div>
         </section>
 
-        <!-- Signature Experience -->
-        <section class="grid-2">
-            <div class="text-col">
-                <div class="hero-subtitle" style="color: var(--white); opacity: 0.5;">Our Philosophy</div>
-                <h2>A Sanctuary for <br>the Soul.</h2>
-                <p>Nestled between the azure ocean and lush mountains, Grand Horizon isn't just a hotel—it's an escape.
-                    Every room offers panoramic views, bespoke furniture, and an ambiance of whispered luxury.</p>
-
-                <div class="feature-list">
+        <div class="philosophy">
+            <div class="phil-text">
+                <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:3px;color:#888;margin-bottom:8px;">
+                    Our Philosophy</div>
+                <h2>A Sanctuary for the Soul.</h2>
+                <p>Nestled between the azure ocean and lush mountains, Grand Horizon isn't just a hotel — it's an
+                    escape. Every room offers panoramic views, bespoke furniture, and an ambiance of whispered luxury.
+                </p>
+                <div class="feature-grid">
                     <div class="feature">
                         <h4>Michelin Dining</h4>
                         <p>Three signature restaurants led by world-class chefs.</p>
@@ -332,76 +780,342 @@
                     </div>
                 </div>
             </div>
-            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-                class="img-col">
+            <div class="phil-img"></div>
+        </div>
+
+        <section class="section">
+            <div class="section-title">Signature Experiences</div>
+            <p class="section-sub">Curated moments designed to make every stay extraordinary.</p>
+            <div class="grid-3" style="gap:12px;">
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=500&q=70" alt="spa"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">🧖 Himalayan Spa Ritual</div>
+                        <div style="font-size:.75rem;color:#d4af37;">90 min · From ₹12,000</div>
+                    </div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1559570278-eb8d71d06403?w=500&q=70" alt="sunset"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">🌅 Sunset Yacht Cruise</div>
+                        <div style="font-size:.75rem;color:#d4af37;">3 hours · From ₹25,000</div>
+                    </div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=70" alt="dining"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">🍽️ Private Beach Dinner</div>
+                        <div style="font-size:.75rem;color:#d4af37;">5-course · From ₹18,000</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Awards & Recognition</div>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;">
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:20px 28px;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:6px;">🏆</div>
+                    <div style="font-weight:700;color:#fff;font-size:.85rem;">World Luxury <br>Hotel Awards</div>
+                    <div style="font-size:.7rem;color:#888;margin-top:4px;">2024 & 2025</div>
+                </div>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:20px 28px;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:6px;">⭐</div>
+                    <div style="font-weight:700;color:#fff;font-size:.85rem;">Forbes Travel<br>Guide 5-Star</div>
+                    <div style="font-size:.7rem;color:#888;margin-top:4px;">3 Consecutive Years</div>
+                </div>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:20px 28px;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:6px;">🌿</div>
+                    <div style="font-weight:700;color:#fff;font-size:.85rem;">EarthCheck<br>Gold Certified</div>
+                    <div style="font-size:.7rem;color:#888;margin-top:4px;">Sustainable Tourism</div>
+                </div>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:20px 28px;text-align:center;">
+                    <div style="font-size:1.6rem;margin-bottom:6px;">🍽️</div>
+                    <div style="font-weight:700;color:#fff;font-size:.85rem;">Michelin Guide<br>Recommended</div>
+                    <div style="font-size:.7rem;color:#888;margin-top:4px;">2 Restaurants</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Guest Experiences</div>
+            <div class="grid-2" style="gap:20px;">
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:24px;border-left:3px solid #d4af37;">
+                    <p style="font-style:italic;color:#bbb;line-height:1.7;margin-bottom:12px;">"The private beach
+                        dinner was the highlight of our honeymoon. The staff went above and beyond to make every moment
+                        magical."</p>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div
+                            style="width:36px;height:36px;border-radius:50%;background:#d4af37;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">
+                            N</div>
+                        <div><strong style="color:#fff;">Nisha & Rohan</strong><br><span
+                                style="font-size:.75rem;color:#888;">Honeymoon • Oceanfront Villa</span></div>
+                    </div>
+                </div>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:24px;border-left:3px solid #d4af37;">
+                    <p style="font-style:italic;color:#bbb;line-height:1.7;margin-bottom:12px;">"I travel 200 days a
+                        year. Grand Horizon is the only hotel that makes me feel truly at home. The butler service is
+                        unparalleled."</p>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div
+                            style="width:36px;height:36px;border-radius:50%;background:#d4af37;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;">
+                            J</div>
+                        <div><strong style="color:#fff;">James Thornton</strong><br><span
+                                style="font-size:.75rem;color:#888;">Business Traveler • Royal Penthouse</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;text-align:center;">
+            <div
+                style="background:linear-gradient(135deg,rgba(212,175,55,.1),rgba(30,30,30,.5));border:1px solid rgba(212,175,55,.3);border-radius:var(--radius);padding:48px 30px;">
+                <h2 style="color:#fff;font-size:1.8rem;margin-bottom:12px;">Your Paradise Awaits</h2>
+                <p style="color:#aaa;max-width:500px;margin:0 auto 24px;line-height:1.6;">Book your stay directly and
+                    receive complimentary spa credit, welcome champagne, and guaranteed late checkout.</p>
+                <button class="booking-btn" style="font-size:.95rem;padding:14px 40px;">Reserve Your Stay →</button>
+            </div>
         </section>
     </div>
 
-    <!-- Rooms -->
+    <!-- ROOMS -->
     <div id="rooms" class="page">
-        <section style="padding: 150px 10%; text-align: center;">
-            <div class="hero-subtitle" style="color: var(--gold);">Accommodations</div>
-            <h2>Suites & Villas</h2>
+        <section class="section">
+            <div class="section-title">Suites & Villas</div>
+            <p class="section-sub">Each accommodation is a masterpiece of design, comfort, and breathtaking views.</p>
+            <div class="grid-3">
+                <div class="room-card">
+                    <div class="room-img"><img
+                            src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80" alt="villa">
+                    </div>
+                    <div class="room-info">
+                        <h3>Oceanfront Villa</h3>
+                        <div class="room-price">₹95,000 / Night</div>
+                        <p style="font-size:.82rem;color:#888;margin-bottom:12px;">180° ocean views, private pool,
+                            outdoor shower, and personal butler service.</p>
+                        <div class="room-amenities"><span class="amenity">🏊 Private Pool</span><span class="amenity">🌊
+                                Ocean View</span><span class="amenity">🛎️ Butler</span></div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-img"><img
+                            src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
+                            alt="penthouse"></div>
+                    <div class="room-info">
+                        <h3>Royal Penthouse</h3>
+                        <div class="room-price">₹2,00,000 / Night</div>
+                        <p style="font-size:.82rem;color:#888;margin-bottom:12px;">Three bedrooms, private terrace,
+                            jacuzzi, home cinema, and dedicated chef.</p>
+                        <div class="room-amenities"><span class="amenity">🎬 Cinema</span><span class="amenity">🍳
+                                Private Chef</span><span class="amenity">🛁 Jacuzzi</span></div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <div class="room-img"><img
+                            src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80" alt="garden">
+                    </div>
+                    <div class="room-info">
+                        <h3>Garden Suite</h3>
+                        <div class="room-price">₹65,000 / Night</div>
+                        <p style="font-size:.82rem;color:#888;margin-bottom:12px;">Lush garden access, king-size bed,
+                            rain shower, and breakfast balcony.</p>
+                        <div class="room-amenities"><span class="amenity">🌿 Garden</span><span class="amenity">🍳
+                                Breakfast</span><span class="amenity">🚿 Rain Shower</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card" style="margin-top:30px;text-align:center;">
+                <p style="color:#aaa;">All rooms include complimentary Wi-Fi, premium linen, Bose sound system, minibar,
+                    and 24/7 room service.</p>
+            </div>
+        </section>
+    </div>
 
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px;">
-                <div style="text-align: left;">
-                    <div style="height: 400px; overflow: hidden; margin-bottom: 20px;">
-                        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s; cursor: pointer;"
-                            onmouseover="this.style.transform='scale(1.1)'"
-                            onmouseout="this.style.transform='scale(1)'">
+    <!-- DINING -->
+    <div id="dining" class="page">
+        <section class="section">
+            <div class="section-title">Dining Experiences</div>
+            <p class="section-sub">From sunrise to starlight — culinary journeys curated for every moment.</p>
+            <div class="grid-3">
+                <div class="dining-card">
+                    <div class="dining-img"><img
+                            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=70" alt="azure">
                     </div>
-                    <h3>Oceanfront Villa</h3>
-                    <p>$1,200 / Night</p>
+                    <div class="dining-info">
+                        <h3>Azure — Fine Dining</h3>
+                        <div class="hours">Dinner: 7 PM – 11 PM</div>
+                        <p>Michelin-starred French-Indian fusion. The signature Saffron Lobster is a must-try.</p>
+                    </div>
                 </div>
-                <div style="text-align: left; margin-top: 50px;">
-                    <div style="height: 400px; overflow: hidden; margin-bottom: 20px;">
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s; cursor: pointer;"
-                            onmouseover="this.style.transform='scale(1.1)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                <div class="dining-card">
+                    <div class="dining-img"><img
+                            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&q=70" alt="terrace">
                     </div>
-                    <h3>Royal Penthouse</h3>
-                    <p>$2,500 / Night</p>
+                    <div class="dining-info">
+                        <h3>Terrace Grill — Poolside</h3>
+                        <div class="hours">Lunch: 12 PM – 4 PM</div>
+                        <p>Wood-fired grills, fresh seafood, and artisan cocktails by the infinity pool.</p>
+                    </div>
                 </div>
-                <div style="text-align: left;">
-                    <div style="height: 400px; overflow: hidden; margin-bottom: 20px;">
-                        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s; cursor: pointer;"
-                            onmouseover="this.style.transform='scale(1.1)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                <div class="dining-card">
+                    <div class="dining-img"><img
+                            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=70" alt="spice">
                     </div>
-                    <h3>Garden Suite</h3>
-                    <p>$850 / Night</p>
+                    <div class="dining-info">
+                        <h3>Spice Route — Pan Asian</h3>
+                        <div class="hours">All Day: 11 AM – 11 PM</div>
+                        <p>Teppanyaki counters, dim sum bar, and a curated sake collection from Kyoto.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-2" style="margin-top:40px;">
+                <div class="glass-card">
+                    <h3>🍷 The Wine Cellar</h3>
+                    <p>Underground cellar with 2,000+ labels from 18 countries. Private tastings available with our
+                        sommelier.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>☕ Lobby Lounge</h3>
+                    <p>Artisan coffee, afternoon tea, and patisserie served in our grand marble lobby. 6 AM – 10 PM
+                        daily.</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Placeholders -->
-    <div id="dining" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Dining Page Loading...</h1>
-        </div>
-    </div>
+    <!-- EXPERIENCES -->
     <div id="experiences" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Experiences Page Loading...</h1>
-        </div>
+        <section class="section">
+            <div class="section-title">Curated Experiences</div>
+            <p class="section-sub">Moments crafted to make your stay extraordinary and unforgettable.</p>
+            <div class="grid-3">
+                <div class="exp-card"><span class="icon">🧖‍♀️</span>
+                    <h3>Infinity Spa</h3>
+                    <p>Ancient Ayurvedic and Balinese treatments in our cliff-edge spa with ocean panoramas. Couples'
+                        suites available.</p>
+                </div>
+                <div class="exp-card"><span class="icon">🏄</span>
+                    <h3>Water Sports</h3>
+                    <p>Jet skiing, parasailing, scuba diving, and sunset kayaking guided by certified instructors.</p>
+                </div>
+                <div class="exp-card"><span class="icon">🧘</span>
+                    <h3>Sunrise Yoga</h3>
+                    <p>Daily yoga sessions on the beach deck at 6 AM led by certified wellness practitioners.</p>
+                </div>
+                <div class="exp-card"><span class="icon">🚤</span>
+                    <h3>Yacht Charter</h3>
+                    <p>Private luxury yacht for island hopping, deep-sea fishing, or a champagne sunset cruise.</p>
+                </div>
+                <div class="exp-card"><span class="icon">🎨</span>
+                    <h3>Art & Culture</h3>
+                    <p>Curated gallery tours, pottery workshops, and traditional dance performances every weekend.</p>
+                </div>
+                <div class="exp-card"><span class="icon">🍷</span>
+                    <h3>Private Dining</h3>
+                    <p>Romantic beachside dinner under the stars with a personal chef and violinist setup.</p>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- CONTACT -->
     <div id="contact" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Contact Page Loading...</h1>
-        </div>
+        <section class="section">
+            <div class="section-title">Reservations & Contact</div>
+            <p class="section-sub">Our concierge team is available 24/7 to assist with your booking.</p>
+            <div class="contact-grid">
+                <div>
+                    <div class="form-group"><label>Full Name</label><input type="text" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+                    <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+                    <div class="form-group"><label>Room Preference</label><select>
+                            <option>Select Room Type</option>
+                            <option>Garden Suite</option>
+                            <option>Oceanfront Villa</option>
+                            <option>Royal Penthouse</option>
+                        </select></div>
+                    <div class="form-group"><label>Special Requests</label><textarea
+                            placeholder="Anniversary setup, dietary needs, airport transfer..."></textarea></div>
+                    <button class="btn btn-gold" style="width:100%;">Submit Reservation</button>
+                </div>
+                <div class="contact-info">
+                    <h3>📍 Grand Horizon</h3>
+                    <div class="ci">
+                        <div class="lbl">Address</div>
+                        <div class="val">Cliff Road, Varkala Beach, Kerala - 695141, India</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Reservations</div>
+                        <div class="val">+91 800 900 2000</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Email</div>
+                        <div class="val">reservations@grandhorizon.in</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Concierge</div>
+                        <div class="val">Available 24/7 via phone or WhatsApp</div>
+                    </div>
+                    <div
+                        style="margin-top:16px;padding:14px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);border-radius:10px;">
+                        <p style="color:var(--gold);font-weight:600;font-size:.85rem;margin:0;">✨ Best Rate Guarantee
+                        </p>
+                        <p style="color:#888;font-size:.78rem;margin-top:4px;">Book directly for exclusive rates,
+                            complimentary upgrades, and early check-in.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Grand Horizon</h4>
+                <p>A sanctuary of luxury nestled on Kerala's pristine coastline. Award-winning hospitality since 2010.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <p>Airport Transfer</p>
+                <p>Wedding Planning</p>
+                <p>Corporate Retreats</p>
+                <p>Concierge 24/7</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>📞 +91 800 900 2000</p>
+                <p>✉️ reservations@grandhorizon.in</p>
+                <p>📍 Varkala, Kerala, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 The Grand Horizon. All Rights Reserved. | Crafted by <strong>Finpixel
+                India</strong></div>
+    </footer>
 
     <script>
         function nav(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.menu-item').forEach(l => l.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('navLinks').classList.remove('open');
         }
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
     </script>
 </body>
 

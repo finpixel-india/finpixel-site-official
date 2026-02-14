@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://finpixel.in/sitemap.xml',
+        sitemap: 'https://finpixel.pages.dev/sitemap.xml',
     }
 }

@@ -3,12 +3,10 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import HeroBackground from "@/components/3d/HeroBackground"
 
 export function Hero() {
     return (
         <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-            <HeroBackground />
 
             <div className="container relative z-10 px-6 text-center">
                 <motion.h1

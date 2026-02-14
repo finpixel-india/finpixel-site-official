@@ -1,4 +1,4 @@
-import { Code2, Server, ShieldCheck, HeartHandshake, Phone, Globe } from "lucide-react"
+import { Code2, Server, HeartHandshake } from "lucide-react"
 
 const capabilities = [
     {

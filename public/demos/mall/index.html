@@ -4,383 +4,1195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metro City Mall</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <title>Metro City Mall — Shop. Eat. Play.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --neon: #bf00ff;
-            --cyan: #00e0ff;
-            --dark: #050510;
+            --neon: #a855f7;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --dark: #08080e;
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 14px;
         }
 
         body {
-            margin: 0;
             font-family: 'Outfit', sans-serif;
             background: var(--dark);
-            color: white;
+            color: #d0d0d0;
             overflow-x: hidden;
         }
 
-        /* Nav */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* NAV */
+        .nav {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(5, 5, 16, 0.8);
+            padding: 14px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 8, 14, .8);
             backdrop-filter: blur(20px);
-            box-sizing: border-box;
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            font-size: .78rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
+            color: #666;
+            transition: .3s;
+            padding: 6px 0;
         }
 
-        .logo span {
-            color: var(--neon);
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
         }
 
-        .nav-items {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-item {
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
             cursor: pointer;
-            text-transform: uppercase;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #fff;
+            transition: .3s;
+        }
+
+        .btn-map {
+            background: linear-gradient(135deg, var(--neon), var(--pink));
+            color: #fff;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 0.8rem;
             letter-spacing: 1px;
-            transition: 0.3s;
-            color: #888;
+            font-size: .78rem;
+            cursor: pointer;
+            transition: .3s;
         }
 
-        .nav-item:hover,
-        .nav-item.active {
-            color: white;
-            text-shadow: 0 0 10px var(--neon);
+        .btn-map:hover {
+            box-shadow: 0 4px 20px rgba(168, 85, 247, .4);
+            transform: translateY(-2px);
         }
 
-        /* Pages */
+        /* PAGES */
         .page {
             display: none;
-            padding-top: 80px;
+            padding-top: 60px;
             min-height: 100vh;
-            animation: zoomIn 0.6s ease;
+            animation: fadeIn .5s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        /* Hero */
-        .hero {
-            height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: var(--neon);
-            filter: blur(150px);
-            opacity: 0.3;
-            border-radius: 50%;
-            animation: pulse 5s infinite alternate;
-        }
-
-        h1 {
-            font-size: 6rem;
-            line-height: 0.9;
-            margin: 0;
-            text-transform: uppercase;
-            font-weight: 900;
-            transform: skewX(-5deg);
-            z-index: 10;
-            position: relative;
-        }
-
-        h1 div:nth-child(2) {
-            color: var(--cyan);
-            -webkit-text-stroke: 0;
-        }
-
-        .stroke {
-            -webkit-text-stroke: 2px white;
-            color: transparent;
-            opacity: 0.5;
-        }
-
-        .cta-btn {
-            margin-top: 40px;
-            padding: 20px 60px;
-            background: white;
-            color: black;
-            border: none;
-            font-weight: 900;
-            font-size: 1.2rem;
-            transform: skewX(-10deg);
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            z-index: 10;
-        }
-
-        .cta-btn:hover {
-            background: var(--neon);
-            color: white;
-            box-shadow: 0 0 30px var(--neon);
-        }
-
-        /* Stores Grid */
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            padding: 40px;
-        }
-
-        .store-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px 20px;
-            text-align: center;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .store-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--cyan);
-            box-shadow: 0 10px 30px rgba(0, 224, 255, 0.2);
-        }
-
-        .store-card h3 {
-            font-size: 1.5rem;
-            margin: 0 0 10px;
-            text-transform: uppercase;
-        }
-
-        .store-tag {
-            font-size: 0.7rem;
-            background: var(--neon);
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        /* Marquee */
-        .marquee {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: var(--neon);
-            color: white;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 10px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            z-index: 50;
-        }
-
-        .track {
-            display: inline-block;
-            animation: scroll 15s linear infinite;
-        }
-
-        .track span {
-            margin: 0 40px;
-        }
-
-        /* Whatsapp */
-        .wa-float {
-            position: fixed;
-            bottom: 60px;
-            right: 30px;
-            background: #25D366;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            display: flex;
-            gap: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            z-index: 100;
-            transition: 0.3s;
-        }
-
-        .wa-float:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes zoomIn {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translateY(15px)
             }
 
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0)
             }
         }
 
-        @keyframes pulse {
-            0% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
+        /* HERO */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 5%;
+            position: relative;
+            overflow: hidden;
+        }
 
-            100% {
-                opacity: 0.5;
-                transform: scale(1.2);
-            }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=1400&q=80') center/cover;
+            opacity: .2;
+        }
+
+        .hero-grad {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(8, 8, 14, .95) 0%, rgba(168, 85, 247, .1) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em {
+            background: linear-gradient(135deg, var(--neon), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: normal;
+        }
+
+        .hero-desc {
+            font-size: clamp(.88rem, 1.8vw, 1.1rem);
+            color: #999;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: .3s;
+            border: none;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--neon), var(--pink));
+            color: #fff;
+        }
+
+        .btn-gradient:hover {
+            box-shadow: 0 0 30px rgba(168, 85, 247, .4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 50px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, .05);
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 14px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .htag {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: .78rem;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        /* SECTION */
+        .section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .section-sub {
+            color: #888;
+            font-size: .88rem;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: .3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--neon);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, .08);
+        }
+
+        .glass-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .glass-card p {
+            color: #999;
+            font-size: .83rem;
+            line-height: 1.6;
+        }
+
+        .glass-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* STORE DIRECTORY */
+        .store-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: .3s;
+        }
+
+        .store-card:hover {
+            border-color: var(--neon);
+            transform: translateY(-4px);
+        }
+
+        .store-img {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .store-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .store-card:hover .store-img img {
+            transform: scale(1.1);
+        }
+
+        .store-info {
+            padding: 18px;
+        }
+
+        .store-info h3 {
+            font-size: .95rem;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .store-floor {
+            color: var(--neon);
+            font-size: .72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .store-info p {
+            font-size: .8rem;
+            color: #888;
+        }
+
+        /* FOOD COURT */
+        .food-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, .05), rgba(236, 72, 153, .04));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            transition: .3s;
+        }
+
+        .food-card:hover {
+            border-color: var(--pink);
+        }
+
+        .food-card .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .food-card h3 {
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .food-card p {
+            color: #888;
+            font-size: .82rem;
+        }
+
+        .food-card .floor {
+            color: var(--pink);
+            font-size: .7rem;
+            font-weight: 700;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* ENTERTAINMENT */
+        .ent-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            cursor: pointer;
+        }
+
+        .ent-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+            filter: brightness(.6);
+        }
+
+        .ent-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(.9);
+        }
+
+        .ent-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, .8));
+        }
+
+        .ent-overlay h3 {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .ent-overlay p {
+            color: #bbb;
+            font-size: .8rem;
+            margin-top: 4px;
+        }
+
+        /* OFFERS */
+        .offer-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, .08), rgba(6, 182, 212, .05));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: .3s;
+        }
+
+        .offer-card:hover {
+            border-color: var(--cyan);
+        }
+
+        .offer-card .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--neon), var(--pink));
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .offer-card h3 {
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .offer-card p {
+            color: #888;
+            font-size: .83rem;
+            line-height: 1.6;
+        }
+
+        /* CONTACT */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .72rem;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: .88rem;
+            outline: none;
+            transition: .3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--neon);
+            box-shadow: 0 0 15px rgba(168, 85, 247, .1);
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .contact-info h3 {
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .ci {
+            margin-bottom: 12px;
+        }
+
+        .ci .lbl {
+            font-size: .7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ci .val {
+            color: #fff;
+            font-size: .88rem;
+            margin-top: 2px;
+        }
+
+        /* MARQUEE */
+        .offers-bar {
+            background: linear-gradient(90deg, var(--neon), var(--pink), var(--cyan));
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .offers-track {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+
+        .offers-track span {
+            color: #fff;
+            font-weight: 700;
+            font-size: .8rem;
+            margin: 0 40px;
+            letter-spacing: 1px;
         }
 
         @keyframes scroll {
             from {
-                transform: translateX(0);
+                transform: translateX(0)
             }
 
             to {
-                transform: translateX(-100%);
+                transform: translateX(-50%)
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(0, 0, 0, .5);
+            border-top: 1px solid var(--border);
+            padding: 40px 5%;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: .85rem;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: #888;
+            font-size: .82rem;
+            line-height: 1.8;
+            display: block;
+        }
+
+        .footer-col a:hover {
+            color: var(--neon);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            padding-top: 16px;
+            text-align: center;
+            color: #555;
+            font-size: .78rem;
+        }
+
+        @media(max-width:768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(8, 8, 14, .97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 30px;
+                gap: 18px;
+                transition: .4s;
+                border-left: 1px solid var(--border);
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: .95rem;
+            }
+
+            .grid-4,
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:480px) {
+
+            .grid-4,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo">Metro <span>City</span></div>
-        <div class="nav-items">
-            <div class="nav-item active" onclick="nav('home', this)">Home</div>
-            <div class="nav-item" onclick="nav('categories', this)">Categories</div>
-            <div class="nav-item" onclick="nav('stores', this)">Stores</div>
-            <div class="nav-item" onclick="nav('offers', this)">Offers</div>
-            <div class="nav-item" onclick="nav('location', this)">Location</div>
+    <div class="offers-bar">
+        <div class="offers-track"><span>🔥 MEGA SALE! Up to 70% Off on 200+ Brands</span><span>🎬 Book IMAX Tickets
+                Online — ₹99 Mondays</span><span>🍕 Flat 50% Off at Food Court This Weekend</span><span>🎮 VR Gaming
+                Zone Now Open — Level 4</span><span>🔥 MEGA SALE! Up to 70% Off on 200+ Brands</span><span>🎬 Book IMAX
+                Tickets Online — ₹99 Mondays</span><span>🍕 Flat 50% Off at Food Court This Weekend</span><span>🎮 VR
+                Gaming Zone Now Open — Level 4</span></div>
+    </div>
+
+    <nav class="nav">
+        <div class="logo">METRO CITY MALL</div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-link active" onclick="nav('home',this)">Home</div>
+            <div class="nav-link" onclick="nav('shops',this)">Shops</div>
+            <div class="nav-link" onclick="nav('food',this)">Food Court</div>
+            <div class="nav-link" onclick="nav('entertainment',this)">Entertainment</div>
+            <div class="nav-link" onclick="nav('offers',this)">Offers</div>
+            <div class="nav-link" onclick="nav('contact',this)">Contact</div>
+            <button class="btn-map">🗺️ Mall Map</button>
         </div>
+        <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     </nav>
 
-    <!-- Home -->
+    <!-- HOME -->
     <div id="home" class="page active">
-        <div class="hero">
-            <h1>
-                <div class="stroke">Shop</div>
-                <div>Eat</div>
-                <div class="stroke">Play</div>
-            </h1>
-            <button class="cta-btn" style="position: absolute; bottom: 20%;">Visit Us Today</button>
-        </div>
-
-        <div style="padding: 60px 40px;">
-            <h2 style="font-size: 3rem; text-transform: uppercase; margin-bottom: 40px;">Trending Now</h2>
-            <div style="display: flex; gap: 20px; overflow-x: auto;">
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
-                <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
-                <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-grad"></div>
+            <div class="hero-content">
+                <h1>Shop. Eat. <em>Experience.</em></h1>
+                <p class="hero-desc">Delhi NCR's largest lifestyle destination — 400+ stores, 80+ restaurants, multiplex
+                    cinema, and unlimited entertainment under one roof.</p>
+                <div class="cta-row">
+                    <button class="btn btn-gradient">Explore Stores</button>
+                    <button class="btn btn-outline">Today's Offers</button>
+                </div>
+                <div class="hero-tags">
+                    <span class="htag">🛍️ 400+ Stores</span>
+                    <span class="htag">🍽️ 80+ Eateries</span>
+                    <span class="htag">🎬 12-Screen IMAX</span>
+                    <span class="htag">🅿️ 5000 Cars</span>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">Why Metro City?</div>
+            <p class="section-sub">The ultimate destination for shopping, dining, and entertainment.</p>
+            <div class="grid-4">
+                <div class="glass-card"><span class="icon">🛍️</span>
+                    <h3>Premium Brands</h3>
+                    <p>H&M, Zara, Apple, Nike, Sephora, and 400+ luxury & high-street stores.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🍽️</span>
+                    <h3>Global Cuisine</h3>
+                    <p>From street food to fine dining — 80+ restaurants across 3 food zones.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🎮</span>
+                    <h3>Entertainment Hub</h3>
+                    <p>IMAX cinema, VR zone, bowling alley, trampoline park, and kids' play area.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🅿️</span>
+                    <h3>Easy Access</h3>
+                    <p>Metro connected, 5000-car parking, valet service, and EV charging stations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Trending Now</div>
+            <p class="section-sub">This week's hottest finds across our stores.</p>
+            <div class="grid-3" style="gap:12px;">
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&q=70" alt="fashion"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">Spring Collection '26</div>
+                        <div style="font-size:.75rem;color:var(--neon);">Zara • H&M • Mango</div>
+                    </div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=70" alt="tech"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">iPhone 17 Pro</div>
+                        <div style="font-size:.75rem;color:var(--neon);">Apple Store • Now Available</div>
+                    </div>
+                </div>
+                <div style="border-radius:var(--radius);overflow:hidden;position:relative;">
+                    <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500&q=70" alt="sneakers"
+                        style="width:100%;height:220px;object-fit:cover;">
+                    <div
+                        style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));">
+                        <div style="font-weight:700;font-size:.95rem;">Air Max DN</div>
+                        <div style="font-size:.75rem;color:var(--neon);">Nike • Exclusive Drop</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Mall Directory</div>
+            <p class="section-sub">5 floors of everything you need — here's what's where.</p>
+            <div class="grid-3">
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--neon);margin-bottom:6px;">G</div>
+                    <h3 style="margin-bottom:6px;">Ground Floor</h3>
+                    <p style="font-size:.82rem;color:#888;">Luxury brands, jewelry, watches, and the grand atrium
+                        lounge.</p>
+                </div>
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--pink);margin-bottom:6px;">1</div>
+                    <h3 style="margin-bottom:6px;">First Floor</h3>
+                    <p style="font-size:.82rem;color:#888;">Fashion, footwear, beauty — Zara, H&M, Sephora, Nike,
+                        Adidas.</p>
+                </div>
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--cyan);margin-bottom:6px;">2</div>
+                    <h3 style="margin-bottom:6px;">Second Floor</h3>
+                    <p style="font-size:.82rem;color:#888;">Electronics, Apple Store, home decor, and co-working spaces.
+                    </p>
+                </div>
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--neon);margin-bottom:6px;">3</div>
+                    <h3 style="margin-bottom:6px;">Third Floor</h3>
+                    <p style="font-size:.82rem;color:#888;">Food court, fine-dining restaurants, cafés, and bars.</p>
+                </div>
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--pink);margin-bottom:6px;">4</div>
+                    <h3 style="margin-bottom:6px;">Fourth Floor</h3>
+                    <p style="font-size:.82rem;color:#888;">IMAX multiplex, VR zone, bowling, trampoline park, and kids'
+                        zone.</p>
+                </div>
+                <div class="glass-card" style="padding:22px;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:var(--cyan);margin-bottom:6px;">R</div>
+                    <h3 style="margin-bottom:6px;">Rooftop</h3>
+                    <p style="font-size:.82rem;color:#888;">Sky lounge, open-air dining, events arena, and seasonal
+                        pop-ups.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+            <div class="section-title">Visitor Reviews</div>
+            <div class="grid-3">
+                <div class="glass-card" style="padding:22px;border-top:2px solid var(--neon);">
+                    <div style="color:var(--neon);margin-bottom:8px;">⭐⭐⭐⭐⭐</div>
+                    <p style="font-style:italic;color:#bbb;line-height:1.6;margin-bottom:10px;font-size:.88rem;">"Best
+                        mall in Delhi NCR, hands down. The VR zone is insane and the food court has endless options."
+                    </p>
+                    <strong style="color:#fff;font-size:.82rem;">— Rahul M.</strong>
+                </div>
+                <div class="glass-card" style="padding:22px;border-top:2px solid var(--pink);">
+                    <div style="color:var(--pink);margin-bottom:8px;">⭐⭐⭐⭐⭐</div>
+                    <p style="font-style:italic;color:#bbb;line-height:1.6;margin-bottom:10px;font-size:.88rem;">"Went
+                        for window shopping, left with 6 bags. The sales and brand variety are unmatched!"</p>
+                    <strong style="color:#fff;font-size:.82rem;">— Priya K.</strong>
+                </div>
+                <div class="glass-card" style="padding:22px;border-top:2px solid var(--cyan);">
+                    <div style="color:var(--cyan);margin-bottom:8px;">⭐⭐⭐⭐⭐</div>
+                    <p style="font-style:italic;color:#bbb;line-height:1.6;margin-bottom:10px;font-size:.88rem;">"The
+                        IMAX experience here is top-tier. And the rooftop lounge at sunset — absolute vibe."</p>
+                    <strong style="color:#fff;font-size:.82rem;">— Aditya S.</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0;text-align:center;">
+            <div class="glass-card"
+                style="padding:48px 30px;background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(236,72,153,.08));border:1px solid rgba(168,85,247,.3);">
+                <h2 style="color:#fff;font-size:1.8rem;margin-bottom:12px;">🎉 Spring Sale — Up to 70% Off!</h2>
+                <p style="color:#aaa;max-width:500px;margin:0 auto 24px;line-height:1.6;">Across 200+ stores including
+                    Zara, Nike, Sephora, and more. Limited time — March 1 to March 15, 2026.</p>
+                <button class="btn btn-gradient">View All Offers →</button>
+            </div>
+        </section>
     </div>
 
-    <!-- Stores -->
-    <div id="stores" class="page">
-        <div style="padding: 40px;">
-            <h2 style="font-size: 3rem; text-transform: uppercase; text-align: center;">Store Directory</h2>
-            <div class="store-grid">
+    <!-- SHOPS -->
+    <div id="shops" class="page">
+        <section class="section">
+            <div class="section-title">Store Directory</div>
+            <p class="section-sub">Explore 400+ stores across 5 floors — from luxury brands to local favourites.</p>
+            <div class="grid-4">
                 <div class="store-card">
-                    <h3>Zara</h3>
-                    <span class="store-tag">Fashion</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=70" alt="fashion">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor 1</span>
+                        <h3>Zara</h3>
+                        <p>International fashion for men, women & kids</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Apple</h3>
-                    <span class="store-tag">Electronics</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?w=400&q=70" alt="tech">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor 2</span>
+                        <h3>Apple Store</h3>
+                        <p>Latest iPhones, MacBooks & accessories</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Sephora</h3>
-                    <span class="store-tag">Beauty</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400&q=70" alt="sports">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor 2</span>
+                        <h3>Nike</h3>
+                        <p>Performance sportswear & sneakers</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Nike</h3>
-                    <span class="store-tag">Sports</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=70" alt="beauty">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor 1</span>
+                        <h3>Sephora</h3>
+                        <p>Premium beauty, skincare & fragrances</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Adidas</h3>
-                    <span class="store-tag">Sports</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&q=70" alt="home"></div>
+                    <div class="store-info"><span class="store-floor">Floor 3</span>
+                        <h3>IKEA Express</h3>
+                        <p>Home décor, furniture & smart living</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Gucci</h3>
-                    <span class="store-tag">Luxury</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=70" alt="luxury">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor G</span>
+                        <h3>Louis Vuitton</h3>
+                        <p>Luxury leather goods, fashion & accessories</p>
+                    </div>
                 </div>
                 <div class="store-card">
-                    <h3>Hamleys</h3>
-                    <span class="store-tag">Kids</span>
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&q=70" alt="books">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor 3</span>
+                        <h3>Crossword</h3>
+                        <p>Books, stationery & gifts</p>
+                    </div>
                 </div>
                 <div class="store-card">
+                    <div class="store-img"><img
+                            src="https://images.unsplash.com/photo-1520006403909-838d6b92c22e?w=400&q=70" alt="jewelry">
+                    </div>
+                    <div class="store-info"><span class="store-floor">Floor G</span>
+                        <h3>Tanishq</h3>
+                        <p>Gold, diamond & platinum jewellery</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOD COURT -->
+    <div id="food" class="page">
+        <section class="section">
+            <div class="section-title">Food Court & Restaurants</div>
+            <p class="section-sub">80+ eateries serving global flavours across 3 dedicated food zones.</p>
+            <div class="grid-4">
+                <div class="food-card"><span class="emoji">🍕</span>
+                    <h3>Pizza Hut</h3>
+                    <p>Hand-tossed pizzas & pasta</p><span class="floor">Floor 4 — Zone A</span>
+                </div>
+                <div class="food-card"><span class="emoji">🍣</span>
+                    <h3>Kofuku</h3>
+                    <p>Japanese ramen & sushi bar</p><span class="floor">Floor 4 — Zone B</span>
+                </div>
+                <div class="food-card"><span class="emoji">☕</span>
                     <h3>Starbucks</h3>
-                    <span class="store-tag">Food</span>
+                    <p>Coffee, frappuccinos & pastries</p><span class="floor">Floor 1 — Atrium</span>
+                </div>
+                <div class="food-card"><span class="emoji">🍔</span>
+                    <h3>Shake Shack</h3>
+                    <p>Burgers, shakes & fries</p><span class="floor">Floor 4 — Zone A</span>
+                </div>
+                <div class="food-card"><span class="emoji">🥘</span>
+                    <h3>Punjab Grill</h3>
+                    <p>Fine dining North Indian</p><span class="floor">Floor 5 — Terrace</span>
+                </div>
+                <div class="food-card"><span class="emoji">🍦</span>
+                    <h3>Häagen-Dazs</h3>
+                    <p>Premium ice cream & sundaes</p><span class="floor">Floor 1 — Atrium</span>
+                </div>
+                <div class="food-card"><span class="emoji">🌮</span>
+                    <h3>Taco Bell</h3>
+                    <p>Mexican tacos & burritos</p><span class="floor">Floor 4 — Zone A</span>
+                </div>
+                <div class="food-card"><span class="emoji">🫖</span>
+                    <h3>Chai Point</h3>
+                    <p>Masala chai & Indian snacks</p><span class="floor">Floor 4 — Zone B</span>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <!-- Placeholders -->
-    <div id="categories" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Categories Loading...</h1>
-        </div>
+    <!-- ENTERTAINMENT -->
+    <div id="entertainment" class="page">
+        <section class="section">
+            <div class="section-title">Entertainment Zone</div>
+            <p class="section-sub">Non-stop fun for all ages — cinema, gaming, sports, and more.</p>
+            <div class="grid-3">
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=70"
+                        alt="cinema">
+                    <div class="ent-overlay">
+                        <h3>🎬 PVR IMAX</h3>
+                        <p>12 screens including 4DX & Dolby Atmos</p>
+                    </div>
+                </div>
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=500&q=70"
+                        alt="vr">
+                    <div class="ent-overlay">
+                        <h3>🎮 VR Gaming Zone</h3>
+                        <p>30+ VR experiences & racing simulators</p>
+                    </div>
+                </div>
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?w=500&q=70"
+                        alt="bowling">
+                    <div class="ent-overlay">
+                        <h3>🎳 Bowling Alley</h3>
+                        <p>10-lane cosmic bowling with café bar</p>
+                    </div>
+                </div>
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1604754742629-3e5728249d73?w=500&q=70"
+                        alt="trampoline">
+                    <div class="ent-overlay">
+                        <h3>🦘 Trampoline Park</h3>
+                        <p>Bounce zones, foam pits & ninja courses</p>
+                    </div>
+                </div>
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1566577134665-2fc3de6d7bd4?w=500&q=70"
+                        alt="kids">
+                    <div class="ent-overlay">
+                        <h3>👶 FunCity Kids Zone</h3>
+                        <p>Safe play area for children ages 2-12</p>
+                    </div>
+                </div>
+                <div class="ent-card"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&q=70"
+                        alt="arcade">
+                    <div class="ent-overlay">
+                        <h3>🕹️ Arcade World</h3>
+                        <p>100+ arcade games & redemption prizes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-2" style="margin-top:30px;">
+                <div class="glass-card"><span class="icon">🏋️</span>
+                    <h3>Gym & Fitness</h3>
+                    <p>Cult.fit flagship gym with group classes, CrossFit zone, and personal training. Open 6 AM – 10
+                        PM.</p>
+                </div>
+                <div class="glass-card"><span class="icon">🧖</span>
+                    <h3>Spa & Wellness</h3>
+                    <p>Full-service spa with massages, facials, nail bar, and steam rooms. Walk-ins welcome.</p>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- OFFERS -->
     <div id="offers" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Offers Loading...</h1>
-        </div>
-    </div>
-    <div id="location" class="page">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <h1>Location Loading...</h1>
-        </div>
+        <section class="section">
+            <div class="section-title">Live Offers & Events</div>
+            <p class="section-sub">Catch the latest deals, seasonal sales, and exciting events happening now.</p>
+            <div class="grid-3">
+                <div class="offer-card"><span class="badge">🔥 Live Now</span>
+                    <h3>Mega Summer Sale</h3>
+                    <p>Up to 70% off across 200+ fashion, beauty, and lifestyle brands. Valid till Aug 31.</p>
+                </div>
+                <div class="offer-card"><span class="badge">🎬 Cinema</span>
+                    <h3>₹99 Movie Mondays</h3>
+                    <p>All non-IMAX screenings for just ₹99 every Monday. Includes free small popcorn.</p>
+                </div>
+                <div class="offer-card"><span class="badge">🍽️ Food</span>
+                    <h3>Dine & Win</h3>
+                    <p>Spend ₹500+ at any food court outlet and win assured cashback via Metro City app.</p>
+                </div>
+                <div class="offer-card"><span class="badge">🎮 Gaming</span>
+                    <h3>VR Zone Opening Offer</h3>
+                    <p>Flat 40% off on all VR experiences this month. Walk-ins welcome, no booking needed.</p>
+                </div>
+                <div class="offer-card"><span class="badge">💳 Bank</span>
+                    <h3>HDFC Card Offer</h3>
+                    <p>Extra 10% off on transactions above ₹3,000 using HDFC credit cards at partner stores.</p>
+                </div>
+                <div class="offer-card"><span class="badge">🎉 Event</span>
+                    <h3>Bollywood Night</h3>
+                    <p>Live concert by top Bollywood artists on the Terrace Arena. Aug 15, 7 PM onwards. Free entry.</p>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="marquee">
-        <div class="track">
-            <span>Summer Sale: Flat 50% Off on Top Brands</span>
-            <span>New IMAX Movie Premire Tonight</span>
-            <span>Live Concert at the Atrium - 7 PM</span>
-            <span>Kids Zone Entry Free on Weekdays</span>
-        </div>
+    <!-- CONTACT -->
+    <div id="contact" class="page">
+        <section class="section">
+            <div class="section-title">Contact & Visit</div>
+            <p class="section-sub">Plan your visit or reach out for leasing and event inquiries.</p>
+            <div class="contact-grid">
+                <div>
+                    <div class="form-group"><label>Name</label><input type="text" placeholder="Your name"></div>
+                    <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+                    <div class="form-group"><label>Inquiry Type</label><select>
+                            <option>General Inquiry</option>
+                            <option>Store Leasing</option>
+                            <option>Event Booking</option>
+                            <option>Lost & Found</option>
+                            <option>Feedback</option>
+                        </select></div>
+                    <div class="form-group"><label>Message</label><textarea placeholder="How can we help?"></textarea>
+                    </div>
+                    <button class="btn btn-gradient" style="width:100%;border-radius:10px;">Send Message</button>
+                </div>
+                <div class="contact-info">
+                    <h3>📍 Metro City Mall</h3>
+                    <div class="ci">
+                        <div class="lbl">Address</div>
+                        <div class="val">Metro City Mall, Sector 25, MG Road, Gurgaon - 122002, Haryana</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Phone</div>
+                        <div class="val">+91 124 456 7890</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Email</div>
+                        <div class="val">info@metrocitymall.in</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Mall Hours</div>
+                        <div class="val">Mon–Thu: 10 AM – 10 PM<br>Fri–Sun: 10 AM – 11 PM</div>
+                    </div>
+                    <div class="ci">
+                        <div class="lbl">Metro Station</div>
+                        <div class="val">MG Road Metro (Yellow Line) — Direct Skywalk</div>
+                    </div>
+                    <div
+                        style="margin-top:16px;padding:14px;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.12);border-radius:10px;">
+                        <p style="color:var(--neon);font-weight:700;font-size:.85rem;margin:0;">📲 Download Metro City
+                            App</p>
+                        <p style="color:#888;font-size:.78rem;margin-top:4px;">Exclusive app-only offers, digital mall
+                            map, and parking finder</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="wa-float">
-        WhatsApp
-    </div>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Metro City Mall</h4>
+                <p>Delhi NCR's premier lifestyle destination with 400+ brands, 80+ restaurants, and world-class
+                    entertainment. Since 2018.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4><a href="#" onclick="nav('shops',document.querySelectorAll('.nav-link')[1])">Store
+                    Directory</a><a href="#" onclick="nav('food',document.querySelectorAll('.nav-link')[2])">Food
+                    Court</a><a href="#"
+                    onclick="nav('entertainment',document.querySelectorAll('.nav-link')[3])">Entertainment</a><a
+                    href="#" onclick="nav('offers',document.querySelectorAll('.nav-link')[4])">Offers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Mall Hours</h4>
+                <p>Mon–Thu: 10AM–10PM</p>
+                <p>Fri–Sun: 10AM–11PM</p>
+                <p>Holidays: 10AM–11PM</p>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <p>📸 @metrocitymall</p>
+                <p>📘 /metrocitymall</p>
+                <p>🐦 @metrocitymall</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Metro City Mall. All Rights Reserved. | Crafted by <strong>Finpixel
+                India</strong></div>
+    </footer>
 
     <script>
         function nav(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('navLinks').classList.remove('open');
         }
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
     </script>
 </body>
 

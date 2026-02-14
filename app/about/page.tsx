@@ -3,8 +3,13 @@ import { GlowBackground } from "@/components/ui/GlowBackground";
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'About Us | Finpixel India',
-    description: 'We are a team of passionate developers and designers crafting digital experiences that matter.',
+    title: 'About Us | Digital Architects of Bharat',
+    description: 'Finpixel India is a remote-first web engineering studio bridging the digital gap for local schools, hospitals, and businesses across India.',
+    openGraph: {
+        title: 'About Finpixel India | Digital Architects of Bharat',
+        description: 'Remote-first web engineering studio bridging the digital gap for local schools, hospitals, and businesses across India.',
+        type: 'website',
+    },
 }
 
 export default function About() {

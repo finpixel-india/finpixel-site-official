@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button"
 import { ProcessTimeline } from "@/components/pricing/ProcessTimeline"
 import type { Metadata } from 'next'
 
-import { GlowBackground } from "@/components/ui/GlowBackground";
-import { Navbar } from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
-    title: 'Pricing | Finpixel India',
-    description: 'Transparent pricing for custom web development. Choose from Startup, Business, or Enterprise plans.',
+    title: 'Pricing | Transparent Web Development Cost',
+    description: 'Simple, transparent pricing for premium web development. Starter from ₹4,500, Growth from ₹8,900, Pro from ₹14,900. No hidden fees.',
+    openGraph: {
+        title: 'Pricing | Finpixel India',
+        description: 'Transparent pricing for custom web development. Choose from Starter, Growth, or Pro plans. No hidden fees.',
+        type: 'website',
+    },
 }
 
 const tiers = [

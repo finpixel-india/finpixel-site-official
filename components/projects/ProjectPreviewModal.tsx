@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Minimize2, ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
+import { X, ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
 
 interface ProjectPreviewModalProps {
     isOpen: boolean;

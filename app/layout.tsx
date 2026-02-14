@@ -14,34 +14,34 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "Finpixel India | Precise Web Engineering",
+    default: "Finpixel India | Premium Web Design & 3D Agency",
     template: "%s | Finpixel India"
   },
-  description: "We engineer high-performance websites for Schools, Colleges, Hotels, and Premium Brands. Hand-coded for 100/100 Google Speed Scores. Fast. Secure. Affordable.",
-  keywords: ["Web Development India", "School Website Design", "College Website Developer", "Hotel Website Agency", "Next.js Developers", "React Website Company", "SEO Optimization", "Performance Web Engineering"],
+  description: "Finpixel India is a next-gen digital agency specializing in custom Next.js websites, 3D web experiences, and SEO performance. Defining every pixel with precision.",
+  keywords: ["Finpixel India", "Web Design India", "Next.js Agency", "3D Website", "Finpixel", "Creative Agency India", "finpixelindia", "fin pixel india", "FinpixelIndia", "Ashish Singh", "Founder of Finpixel India: Ashish Singh"],
   authors: [{ name: "Finpixel India" }],
   creator: "Finpixel India",
-  metadataBase: new URL('https://finpixel.in'), // Assuming this domain, or replace with actual
+  metadataBase: new URL('https://finpixel.pages.dev'),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://finpixel.in",
-    title: "Finpixel India | Defining Every Pixel with Precision",
-    description: "Premium web engineering for ambitious brands. No builders, just pure code excellence.",
+    url: "https://finpixel.pages.dev",
+    title: "Finpixel India | Premium Web Design & 3D Agency",
+    description: "Finpixel India is a next-gen digital agency specializing in custom Next.js websites, 3D web experiences, and SEO performance. Defining every pixel with precision.",
     siteName: "Finpixel India",
     images: [
       {
-        url: "/og-image.png", // We should ensure this exists or use a default
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Finpixel India - Premium Web Engineering",
+        alt: "Finpixel India - Premium Web Design & 3D Agency",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Finpixel India | Precise Web Engineering",
-    description: "We build high-performance websites for Schools, Colleges, Hotels, and Brands.",
+    title: "Finpixel India | Premium Web Design & 3D Agency",
+    description: "Next-gen digital agency specializing in custom Next.js websites, 3D web experiences, and SEO performance.",
     images: ["/og-image.png"],
     creator: "@Finpixelindia",
   },
