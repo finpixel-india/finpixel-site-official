@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron & Spice</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --accent: #FF4500;
+            /* Orange Red */
+            --dark: #0f0f0f;
+            --text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Nav */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background: #000;
+            border-right: 1px solid #222;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent);
+        }
+
+        .socials {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            padding: 80px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Page */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: calc(100% - 250px);
+            height: 100%;
+            z-index: -1;
+            background: url('https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2670&auto=format&fit=crop') center/cover;
+            filter: brightness(0.4);
+            transition: 0.5s;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            margin: 0 0 20px;
+            line-height: 1;
+        }
+
+        h1 span {
+            color: var(--accent);
+            font-style: italic;
+            display: block;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            max-width: 500px;
+            color: #ccc;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-reserve {
+            padding: 15px 40px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: 'Lato';
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-reserve:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Menu Page */
+        .menu-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            color: var(--accent);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            align-items: baseline;
+        }
+
+        .item-details h3 {
+            margin: 0 0 5px;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .gallery-img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        /* Whatsapp Toggle */
+        .whatsapp-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            transition: 0.3s;
+        }
+
+        .whatsapp-toggle:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="logo">Saffron <br>& Spice</div>
+            <nav class="nav-links">
+                <div class="nav-link active" onclick="nav('home', this)">Home</div>
+                <div class="nav-link" onclick="nav('menu', this)">Our Menu</div>
+                <div class="nav-link" onclick="nav('ambience', this)">Ambience</div>
+                <div class="nav-link" onclick="nav('gallery', this)">Gallery</div>
+                <div class="nav-link" onclick="nav('events', this)">Private Events</div>
+                <div class="nav-link" onclick="nav('reviews', this)">Reviews</div>
+                <div class="nav-link" onclick="nav('contact', this)">Contact</div>
+            </nav>
+        </div>
+        <div class="socials">
+            <span>FB</span> <span>IG</span> <span>TR</span>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="hero-bg" id="hero-bg"></div>
+
+        <!-- Home -->
+        <div id="home" class="page active">
+            <div style="height: 80vh; display: flex; flex-direction: column; justify-content: center;">
+                <h1>Culinary <br><span>Alchemistry</span></h1>
+                <p class="hero-text">Experience the fusion of traditional spices and modern techniques. A dining
+                    experience that transcends the ordinary.</p>
+                <div style="display: flex; gap: 20px;">
+                    <button class="btn-reserve">Reserve Table</button>
+                    <button class="btn-reserve" style="border-color: #fff; color: #fff;">Order Online</button>
+                </div>
+
+                <div style="margin-top: 80px; display: flex; gap: 40px;">
+                    <div>
+                        <div style="font-size: 2rem; color: var(--accent); font-family: 'Playfair Display';">4.9/5</div>
+                        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Google Reviews
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2rem; color: var(--accent); font-family: 'Playfair Display';">Michelin
+                        </div>
+                        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Star 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div id="menu" class="page" style="background: #0f0f0f;">
+            <div class="menu-title">Curated Menu</div>
+            <div class="menu-grid">
+                <div>
+                    <div class="category-title">Starters</div>
+                    <div class="menu-item">
+                        <div class="item-details">
+                            <h3>Smoked Scallops</h3>
+                            <div class="item-desc">Cauliflower puree, truffle oil, micro greens</div>
+                        </div>
+                        <div class="item-price">$22</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-details">
+                            <h3>Wagyu Beef Carpaccio</h3>
+                            <div class="item-desc">Parmesan crisps, capers, mustard dressing</div>
+                        </div>
+                        <div class="item-price">$28</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="category-title">Mains</div>
+                    <div class="menu-item">
+                        <div class="item-details">
+                            <h3>Saffron Risotto</h3>
+                            <div class="item-desc">Imported Iranian saffron, gold leaf, aged parmesan</div>
+                        </div>
+                        <div class="item-price">$34</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-details">
+                            <h3>Lobster Thermidor</h3>
+                            <div class="item-desc">Cognac cream sauce, gruyere cheese crust</div>
+                        </div>
+                        <div class="item-price">$45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <div id="gallery" class="page" style="background: #0f0f0f;">
+            <div class="menu-title">Visual Feast</div>
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1550966871-3ed3c6227685?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    class="gallery-img">
+            </div>
+        </div>
+
+        <!-- Placeholders -->
+        <div id="ambience" class="page">
+            <h1>Ambience Content Loading...</h1>
+        </div>
+        <div id="events" class="page">
+            <h1>Events Content Loading...</h1>
+        </div>
+        <div id="reviews" class="page">
+            <h1>Reviews Content Loading...</h1>
+        </div>
+        <div id="contact" class="page">
+            <h1>Contact Content Loading...</h1>
+        </div>
+    </div>
+
+    <div class="whatsapp-toggle">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+    </div>
+
+    <script>
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
+
+            // Background change logic could go here
+            if (id === 'home') {
+                document.getElementById('hero-bg').style.opacity = '1';
+            } else {
+                document.getElementById('hero-bg').style.opacity = '0.1';
+            }
+        }
+    </script>
+</body>
+
+</html>

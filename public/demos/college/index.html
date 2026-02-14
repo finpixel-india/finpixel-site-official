@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imperial University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #87CEEB;
+            /* Sky Blue */
+            --secondary: #FFD700;
+            /* Yellow */
+            --dark: #0a0a0a;
+            --light: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background: #fff;
+            color: #111;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            border-bottom-color: var(--primary);
+            color: #000;
+        }
+
+        .btn-apply {
+            background: var(--secondary);
+            color: #000;
+            padding: 10px 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Pages */
+        .section {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            color: white;
+        }
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 10%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin: 0 0 20px;
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+            border-left: 3px solid var(--secondary);
+            padding-left: 20px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        /* Sections */
+        .content-section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 20px auto 0;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .highlight-card {
+            background: #f9f9f9;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #eee;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-10px);
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: inline-block;
+        }
+
+        .news-marquee {
+            background: var(--dark);
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .news-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+
+        .news-item {
+            display: inline-block;
+            margin: 0 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .news-item span {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111;
+            color: #fff;
+            padding: 60px 10%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">IMPERIAL <span>UNIVERSITY</span></div>
+        <div class="nav-links">
+            <div class="nav-link active" onclick="nav('home', this)">Home</div>
+            <div class="nav-link" onclick="nav('academics', this)">Academics</div>
+            <div class="nav-link" onclick="nav('faculty', this)">Faculty</div>
+            <div class="nav-link" onclick="nav('placements', this)">Placements</div>
+            <div class="nav-link" onclick="nav('life', this)">Student Life</div>
+            <div class="nav-link" onclick="nav('contact', this)">Contact</div>
+        </div>
+        <button class="btn-apply">Apply Now</button>
+    </nav>
+
+    <div class="news-marquee">
+        <div class="news-content">
+            <span class="news-item"><span>NEW</span> Applications for Fall 2026 are now open!</span>
+            <span class="news-item"><span>EVENT</span> Annual Tech Symposium starts Oct 22</span>
+            <span class="news-item"><span>ACHIEVEMENT</span> Ranked #1 in Engineering Research by GRC</span>
+        </div>
+    </div>
+
+    <!-- Home -->
+    <div id="home" class="section active">
+        <div class="hero">
+            <img src="https://images.unsplash.com/photo-1592280771190-3e2e4d571952?q=80&w=2574&auto=format&fit=crop"
+                class="hero-video">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Knowledge is <br><span>Power.</span></h1>
+                <p class="hero-desc">Experience absolute academic excellence at Imperial University. We are shaping the
+                    innovators of tomorrow with world-class infrastructure and top-tier faculty.</p>
+                <button class="btn-apply" style="padding: 15px 40px; font-size: 1.1rem;">Download Prospectus</button>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">50+</span>
+                        <span class="stat-label">Courses</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">98%</span>
+                        <span class="stat-label">Placement</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">120ac</span>
+                        <span class="stat-label">Campus</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <div class="section-title">Why Choose Imperial?</div>
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <span class="icon">🎓</span>
+                    <h3>Global Curriculum</h3>
+                    <p>Designed by industry experts to meet international standards.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="icon">💼</span>
+                    <h3>Top Placements</h3>
+                    <p>Highest package of $120k with recruitment from Fortune 500.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="icon">🏛️</span>
+                    <h3>Infrastructure</h3>
+                    <p>State-of-the-art labs, libraries, and smart classrooms.</p>
+                </div>
+                <div class="highlight-card">
+                    <span class="icon">🌍</span>
+                    <h3>Diversity</h3>
+                    <p>Students from over 30 countries creating a vibrant culture.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" style="background: #f4f4f4;">
+            <div class="section-title">Message from the Dean</div>
+            <div style="display: flex; gap: 40px; align-items: center; max-width: 1000px; margin: 0 auto;">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
+                    style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div>
+                    <h3 style="margin: 0 0 10px; font-size: 1.5rem;">Dr. Richard Sterling</h3>
+                    <p style="font-style: italic; color: #555; line-height: 1.8;">"At Imperial, we don't just teach; we
+                        inspire. Our mission is to empower students to challenge the status quo and create a meaningful
+                        impact in the world. Welcome to the future of education."</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Academics -->
+    <div id="academics" class="section">
+        <section class="content-section">
+            <div class="section-title">Academic Programs</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+                <div style="background: #000; color: white; padding: 40px; position: relative;">
+                    <h3 style="color: var(--primary);">Engineering</h3>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li>Computer Science</li>
+                        <li>Mechanical</li>
+                        <li>Aerospace</li>
+                        <li>Robotics</li>
+                    </ul>
+                </div>
+                <div style="background: #000; color: white; padding: 40px; position: relative;">
+                    <h3 style="color: var(--secondary);">Management</h3>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li>MBA Finance</li>
+                        <li>Marketing</li>
+                        <li>Intl. Business</li>
+                        <li>Entrepreneurship</li>
+                    </ul>
+                </div>
+                <div style="background: #000; color: white; padding: 40px; position: relative;">
+                    <h3 style="color: #fff;">Humanities</h3>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li>Psychology</li>
+                        <li>English Lit</li>
+                        <li>Economics</li>
+                        <li>Political Science</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Placements -->
+    <div id="placements" class="section">
+        <section class="content-section" style="text-align: center;">
+            <div class="section-title">Career Success</div>
+            <div style="display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 40px;">
+                <div style="padding: 20px; font-size: 2rem; font-weight: 700; color: #555;">GOOGLE</div>
+                <div style="padding: 20px; font-size: 2rem; font-weight: 700; color: #555;">MICROSOFT</div>
+                <div style="padding: 20px; font-size: 2rem; font-weight: 700; color: #555;">AMAZON</div>
+                <div style="padding: 20px; font-size: 2rem; font-weight: 700; color: #555;">TESLA</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Placeholders -->
+    <div id="faculty" class="section">
+        <div class="content-section">
+            <h1>Faculty Page Loading...</h1>
+        </div>
+    </div>
+    <div id="life" class="section">
+        <div class="content-section">
+            <h1>Student Life Page Loading...</h1>
+        </div>
+    </div>
+    <div id="contact" class="section">
+        <div class="content-section">
+            <h1>Contact Page Loading...</h1>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2026 Imperial University. All Rights Reserved. <br>
+        Accredited by NAAC 'A++' Grade.
+    </footer>
+
+    <script>
+        function nav(id, el) {
+            document.querySelectorAll('.section').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Care Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #008080;
+            /* Teal */
+            --accent: #20B2AA;
+            --bg: #F0F8FF;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: #555;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .btn-emergency {
+            background: #E63946;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-emergency:hover {
+            transform: scale(1.05);
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding-top: 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 40px 10%;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            height: 80vh;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin: 0 0 20px;
+            color: #1a1a1a;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .hero-img {
+            flex: 1;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1579684385180-65f2913bcd35?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover;
+            border-radius: 30px;
+            box-shadow: 20px 20px 0 var(--accent);
+        }
+
+        .search-bar {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .btn-search {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Stats */
+        .stats-strip {
+            background: var(--primary);
+            color: white;
+            padding: 60px 10%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        /* Doctors Grid */
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 0 10% 80px;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .doc-img {
+            height: 250px;
+            background: #eee;
+            background-size: cover;
+            background-position: top;
+        }
+
+        .doc-info {
+            padding: 25px;
+        }
+
+        .doc-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #1a1a1a;
+        }
+
+        .doc-spec {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-book:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Whatsapp */
+        .wa-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 50;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">City Care <span>Hospital</span></div>
+        <div class="nav-links">
+            <div class="nav-link active" onclick="nav('home', this)">Home</div>
+            <div class="nav-link" onclick="nav('doctors', this)">Find Doctors</div>
+            <div class="nav-link" onclick="nav('depts', this)">Departments</div>
+            <div class="nav-link" onclick="nav('facilities', this)">Facilities</div>
+            <div class="nav-link" onclick="nav('contact', this)">Contact</div>
+        </div>
+        <button class="btn-emergency">Emergency: 108</button>
+    </header>
+
+    <!-- Home -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="hero-text">
+                <h1>World-Class Care, <br>Right Here.</h1>
+                <p>Leading the way in medical excellence with state-of-the-art facilities and compassionate care for you
+                    and your family.</p>
+                <div class="search-bar">
+                    <input class="search-input" placeholder="Search doctor, specialty...">
+                    <button class="btn-search">Find</button>
+                </div>
+            </div>
+            <div class="hero-img"></div>
+        </div>
+
+        <div class="stats-strip">
+            <div><span class="stat-num">500+</span>Doctors</div>
+            <div><span class="stat-num">1200</span>Beds</div>
+            <div><span class="stat-num">24/7</span>Trauma Care</div>
+            <div><span class="stat-num">50k+</span>Happy Patients</div>
+        </div>
+
+        <div style="padding: 80px 10%; text-align: center;">
+            <h2 style="font-size: 2.5rem; color: #1a1a1a; margin-bottom: 50px;">Specialties</h2>
+            <div style="display: flex; justify-content: center; gap: 40px;">
+                <div
+                    style="padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 150px;">
+                    <div style="font-size: 3rem;">🫀</div>
+                    <h3>Cardiology</h3>
+                </div>
+                <div
+                    style="padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 150px;">
+                    <div style="font-size: 3rem;">🧠</div>
+                    <h3>Neurology</h3>
+                </div>
+                <div
+                    style="padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 150px;">
+                    <div style="font-size: 3rem;">🦴</div>
+                    <h3>Orthopedics</h3>
+                </div>
+                <div
+                    style="padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 150px;">
+                    <div style="font-size: 3rem;">👶</div>
+                    <h3>Pediatrics</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctors -->
+    <div id="doctors" class="page">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem;">Our Specialists</h2>
+            <p style="color: #666;">Meet our team of experienced medical professionals.</p>
+        </div>
+        <div class="doc-grid">
+            <div class="doc-card">
+                <div class="doc-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+                </div>
+                <div class="doc-info">
+                    <div class="doc-name">Dr. Sarah West</div>
+                    <span class="doc-spec">Cardiologist</span>
+                    <button class="btn-book">Book Appointment</button>
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="doc-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+                </div>
+                <div class="doc-info">
+                    <div class="doc-name">Dr. James Chen</div>
+                    <span class="doc-spec">Neurologist</span>
+                    <button class="btn-book">Book Appointment</button>
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="doc-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')">
+                </div>
+                <div class="doc-info">
+                    <div class="doc-name">Dr. Emily Ray</div>
+                    <span class="doc-spec">Pediatrician</span>
+                    <button class="btn-book">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholders -->
+    <div id="depts" class="page">
+        <div style="height: 60vh; display: flex; justify-content: center; align-items: center;">
+            <h1>Departments List Loading...</h1>
+        </div>
+    </div>
+    <div id="facilities" class="page">
+        <div style="height: 60vh; display: flex; justify-content: center; align-items: center;">
+            <h1>Facilities List Loading...</h1>
+        </div>
+    </div>
+    <div id="contact" class="page">
+        <div style="height: 60vh; display: flex; justify-content: center; align-items: center;">
+            <h1>Contact Form Loading...</h1>
+        </div>
+    </div>
+
+    <div class="wa-float">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+    </div>
+
+    <script>
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

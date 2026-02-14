@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro City Mall</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #bf00ff;
+            --cyan: #00e0ff;
+            --dark: #050510;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Nav */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(5, 5, 16, 0.8);
+            backdrop-filter: blur(20px);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--neon);
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            color: #888;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: white;
+            text-shadow: 0 0 10px var(--neon);
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+            animation: zoomIn 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: var(--neon);
+            filter: blur(150px);
+            opacity: 0.3;
+            border-radius: 50%;
+            animation: pulse 5s infinite alternate;
+        }
+
+        h1 {
+            font-size: 6rem;
+            line-height: 0.9;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 900;
+            transform: skewX(-5deg);
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 div:nth-child(2) {
+            color: var(--cyan);
+            -webkit-text-stroke: 0;
+        }
+
+        .stroke {
+            -webkit-text-stroke: 2px white;
+            color: transparent;
+            opacity: 0.5;
+        }
+
+        .cta-btn {
+            margin-top: 40px;
+            padding: 20px 60px;
+            background: white;
+            color: black;
+            border: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            transform: skewX(-10deg);
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-btn:hover {
+            background: var(--neon);
+            color: white;
+            box-shadow: 0 0 30px var(--neon);
+        }
+
+        /* Stores Grid */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .store-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .store-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyan);
+            box-shadow: 0 10px 30px rgba(0, 224, 255, 0.2);
+        }
+
+        .store-card h3 {
+            font-size: 1.5rem;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+        }
+
+        .store-tag {
+            font-size: 0.7rem;
+            background: var(--neon);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Marquee */
+        .marquee {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--neon);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            z-index: 50;
+        }
+
+        .track {
+            display: inline-block;
+            animation: scroll 15s linear infinite;
+        }
+
+        .track span {
+            margin: 0 40px;
+        }
+
+        /* Whatsapp */
+        .wa-float {
+            position: fixed;
+            bottom: 60px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">Metro <span>City</span></div>
+        <div class="nav-items">
+            <div class="nav-item active" onclick="nav('home', this)">Home</div>
+            <div class="nav-item" onclick="nav('categories', this)">Categories</div>
+            <div class="nav-item" onclick="nav('stores', this)">Stores</div>
+            <div class="nav-item" onclick="nav('offers', this)">Offers</div>
+            <div class="nav-item" onclick="nav('location', this)">Location</div>
+        </div>
+    </nav>
+
+    <!-- Home -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>
+                <div class="stroke">Shop</div>
+                <div>Eat</div>
+                <div class="stroke">Play</div>
+            </h1>
+            <button class="cta-btn" style="position: absolute; bottom: 20%;">Visit Us Today</button>
+        </div>
+
+        <div style="padding: 60px 40px;">
+            <h2 style="font-size: 3rem; text-transform: uppercase; margin-bottom: 40px;">Trending Now</h2>
+            <div style="display: flex; gap: 20px; overflow-x: auto;">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
+                <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
+                <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                    style="width: 300px; height: 400px; object-fit: cover; border-radius: 20px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Stores -->
+    <div id="stores" class="page">
+        <div style="padding: 40px;">
+            <h2 style="font-size: 3rem; text-transform: uppercase; text-align: center;">Store Directory</h2>
+            <div class="store-grid">
+                <div class="store-card">
+                    <h3>Zara</h3>
+                    <span class="store-tag">Fashion</span>
+                </div>
+                <div class="store-card">
+                    <h3>Apple</h3>
+                    <span class="store-tag">Electronics</span>
+                </div>
+                <div class="store-card">
+                    <h3>Sephora</h3>
+                    <span class="store-tag">Beauty</span>
+                </div>
+                <div class="store-card">
+                    <h3>Nike</h3>
+                    <span class="store-tag">Sports</span>
+                </div>
+                <div class="store-card">
+                    <h3>Adidas</h3>
+                    <span class="store-tag">Sports</span>
+                </div>
+                <div class="store-card">
+                    <h3>Gucci</h3>
+                    <span class="store-tag">Luxury</span>
+                </div>
+                <div class="store-card">
+                    <h3>Hamleys</h3>
+                    <span class="store-tag">Kids</span>
+                </div>
+                <div class="store-card">
+                    <h3>Starbucks</h3>
+                    <span class="store-tag">Food</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholders -->
+    <div id="categories" class="page">
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <h1>Categories Loading...</h1>
+        </div>
+    </div>
+    <div id="offers" class="page">
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <h1>Offers Loading...</h1>
+        </div>
+    </div>
+    <div id="location" class="page">
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <h1>Location Loading...</h1>
+        </div>
+    </div>
+
+    <div class="marquee">
+        <div class="track">
+            <span>Summer Sale: Flat 50% Off on Top Brands</span>
+            <span>New IMAX Movie Premire Tonight</span>
+            <span>Live Concert at the Atrium - 7 PM</span>
+            <span>Kids Zone Entry Free on Weekdays</span>
+        </div>
+    </div>
+
+    <div class="wa-float">
+        WhatsApp
+    </div>
+
+    <script>
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
