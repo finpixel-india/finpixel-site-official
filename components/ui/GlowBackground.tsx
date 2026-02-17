@@ -14,7 +14,10 @@ export const GlowBackground = () => {
             <div
                 className="absolute left-1/2 bottom-[-400px] -translate-x-1/2 w-[1200px] h-[800px] rounded-[100%] opacity-80 blur-[100px]"
                 style={{
-                    background: "radial-gradient(circle at center, rgba(140, 100, 255, 0.6) 0%, rgba(80, 120, 255, 0.4) 40%, rgba(0, 0, 0, 0) 70%)"
+                    background: "radial-gradient(circle at center, rgba(140, 100, 255, 0.6) 0%, rgba(80, 120, 255, 0.4) 40%, rgba(0, 0, 0, 0) 70%)",
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                    contain: "strict",
                 }}
             />
 
@@ -22,7 +25,10 @@ export const GlowBackground = () => {
             <div
                 className="absolute top-[-200px] left-1/4 w-[800px] h-[600px] rounded-[100%] opacity-40 blur-[80px]"
                 style={{
-                    background: "radial-gradient(circle at center, rgba(120, 80, 255, 0.5) 0%, rgba(0, 0, 0, 0) 70%)"
+                    background: "radial-gradient(circle at center, rgba(120, 80, 255, 0.5) 0%, rgba(0, 0, 0, 0) 70%)",
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                    contain: "strict",
                 }}
             />
 

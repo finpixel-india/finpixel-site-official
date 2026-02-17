@@ -7,9 +7,10 @@ import { SiFiverr, SiLinktree, SiNotion } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { ContactGlobe } from "@/components/contact/Globe";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/lib/supabaseClient";
 
 export function ContactContent() {
-    const [formState, setFormState] = useState({
+    const initialFormState = {
         name: "",
         businessName: "",
         whatsapp: "",
@@ -17,18 +18,67 @@ export function ContactContent() {
         category: "",
         need: "",
         description: ""
-    });
+    };
 
+    const [formState, setFormState] = useState(initialFormState);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [statusMessage, setStatusMessage] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+        setStatusMessage("");
+
+        const composedMessage = `Category: ${formState.category}\nNeed: ${formState.need}\n\n${formState.description}`;
+
+        try {
+            // Execute both requests concurrently
+            const [emailResult, dbResult] = await Promise.allSettled([
+                // Web3Forms email
+                fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        access_key: "8d45daf0-7554-49a4-ad59-26cd88af336b",
+                        name: formState.name,
+                        business: formState.businessName,
+                        phone: formState.whatsapp,
+                        email: formState.email,
+                        message: composedMessage,
+                    }),
+                }).then(res => res.json()),
+
+                // Supabase insert
+                supabase.from("leads").insert({
+                    name: formState.name,
+                    business_name: formState.businessName,
+                    phone: formState.whatsapp,
+                    email: formState.email,
+                    message: composedMessage,
+                }),
+            ]);
+
+            // Log Supabase errors silently
+            if (dbResult.status === "rejected") {
+                console.error("Supabase insert failed:", dbResult.reason);
+            } else if (dbResult.status === "fulfilled" && dbResult.value.error) {
+                console.error("Supabase insert error:", JSON.stringify(dbResult.value.error, null, 2));
+            }
+
+            // Determine success based on email result
+            if (emailResult.status === "fulfilled" && emailResult.value.success) {
+                setIsSubmitted(true);
+                setStatusMessage("✅ Message sent successfully! We'll get back to you soon.");
+                setFormState(initialFormState);
+            } else {
+                setStatusMessage("❌ Something went wrong. Please try again.");
+            }
+        } catch {
+            setStatusMessage("❌ Network error. Please check your connection and try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -41,9 +91,11 @@ export function ContactContent() {
     return (
         <div className="min-h-screen bg-black relative overflow-hidden flex flex-col justify-center font-sans selection:bg-cyan-500/30">
 
-            {/* Background Globe */}
-            <div className="absolute inset-0 z-0 opacity-60">
-                <ContactGlobe />
+            {/* Background Globe - Sticky to stay centered while scrolling */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+                    <ContactGlobe />
+                </div>
             </div>
 
             <div className="container relative z-10 px-6 grid grid-cols-1 md:grid-cols-2 gap-16 pt-32 pb-24 items-start">
@@ -139,22 +191,22 @@ export function ContactContent() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label htmlFor="name">Your Name</Label>
-                                            <Input id="name" placeholder="John Doe" value={formState.name} onChange={handleChange} required />
+                                            <Input id="name" name="name" placeholder="John Doe" value={formState.name} onChange={handleChange} required />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="businessName">Business / Org Name</Label>
-                                            <Input id="businessName" placeholder="St. Xavier's School" value={formState.businessName} onChange={handleChange} required />
+                                            <Input id="businessName" name="business" placeholder="St. Xavier's School" value={formState.businessName} onChange={handleChange} required />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label htmlFor="whatsapp">WhatsApp Number <span className="text-xs text-cyan-400 ml-2">(For fast updates)</span></Label>
-                                            <Input id="whatsapp" placeholder="+91 98765 43210" value={formState.whatsapp} onChange={handleChange} required />
+                                            <Input id="whatsapp" name="phone" placeholder="+91 98765 43210" value={formState.whatsapp} onChange={handleChange} required />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="email">Email Address</Label>
-                                            <Input id="email" type="email" placeholder="john@example.com" value={formState.email} onChange={handleChange} required />
+                                            <Input id="email" name="email" type="email" placeholder="john@example.com" value={formState.email} onChange={handleChange} required />
                                         </div>
                                     </div>
 
@@ -223,6 +275,18 @@ export function ContactContent() {
                                         </span>
                                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     </Button>
+
+                                    {/* Status message below button */}
+                                    {statusMessage && (
+                                        <motion.p
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className={`text-center text-sm font-medium mt-4 ${statusMessage.startsWith("✅") ? "text-green-400" : "text-red-400"
+                                                }`}
+                                        >
+                                            {statusMessage}
+                                        </motion.p>
+                                    )}
                                 </motion.form>
                             ) : (
                                 <motion.div
@@ -240,7 +304,7 @@ export function ContactContent() {
                                     </p>
                                     <Button
                                         className="mt-4 bg-white/10 hover:bg-white/20 text-white"
-                                        onClick={() => setIsSubmitted(false)}
+                                        onClick={() => { setIsSubmitted(false); setStatusMessage(""); }}
                                     >
                                         Start New Request
                                     </Button>
@@ -262,11 +326,12 @@ function Label({ htmlFor, children }: { htmlFor: string, children: React.ReactNo
     );
 }
 
-function Input({ id, type = "text", placeholder, value, onChange, required }: { id: string, type?: string, placeholder?: string, value?: string, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, required?: boolean }) {
+function Input({ id, name, type = "text", placeholder, value, onChange, required }: { id: string, name?: string, type?: string, placeholder?: string, value?: string, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, required?: boolean }) {
     return (
         <input
             type={type}
             id={id}
+            name={name}
             value={value}
             onChange={onChange}
             required={required}

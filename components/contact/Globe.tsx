@@ -9,7 +9,6 @@ export function ContactGlobe() {
     const pointerInteracting = useRef<number | null>(null);
     const pointerInteractionMovement = useRef(0);
 
-    // Use framer-motion's useSpring correctly: it returns a motion value
     const r = useSpring(0, {
         mass: 1,
         stiffness: 280,
@@ -36,18 +35,14 @@ export function ContactGlobe() {
             mapSamples: 16000,
             mapBrightness: 6,
             baseColor: [0.05, 0.05, 0.05],
-            markerColor: [0, 0.952, 1], // Cyan #00f3ff
+            markerColor: [0, 0.952, 1],
             glowColor: [0.2, 0.2, 0.4],
             markers: [
-                // India
-                { location: [20.5937, 78.9629], size: 0.1 },
-                // USA (approx center)
-                { location: [37.0902, -95.7129], size: 0.1 },
-                // Europe (approx center)
-                { location: [54.5260, 15.2551], size: 0.1 },
+                { location: [20.5937, 78.9629], size: 0.1 }, // India
+                { location: [37.0902, -95.7129], size: 0.1 }, // USA
+                { location: [54.5260, 15.2551], size: 0.1 }, // Europe
             ],
             onRender: (state) => {
-                // Called on every animation frame.
                 if (!pointerInteracting.current) {
                     phi += 0.005;
                 }
@@ -68,14 +63,14 @@ export function ContactGlobe() {
     }, [r]);
 
     return (
-        <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
+        <div className="w-full h-full flex items-center justify-center">
             <div
                 style={{
-                    width: '100%',
-                    maxWidth: 800,
+                    width: '600px',
+                    maxWidth: '100%',
                     aspectRatio: 1,
                 }}
-                className="relative pointer-events-auto"
+                className="relative"
             >
                 <canvas
                     ref={canvasRef}
@@ -104,20 +99,6 @@ export function ContactGlobe() {
                             pointerInteractionMovement.current = delta;
                             r.set(delta / 200);
                         }
-                    }}
-                    onTouchMove={(e) => {
-                        if (pointerInteracting.current !== null && e.touches[0]) {
-                            const delta = e.touches[0].clientX - pointerInteracting.current;
-                            pointerInteractionMovement.current = delta;
-                            r.set(delta / 100);
-                        }
-                    }}
-                />
-
-                {/* Radial mask to fade edges */}
-                <div className="absolute inset-0 bg-radial-gradient-fade pointer-events-none"
-                    style={{
-                        background: 'radial-gradient(circle, rgba(5,5,5,0) 40%, rgba(5,5,5,1) 70%)'
                     }}
                 />
             </div>
