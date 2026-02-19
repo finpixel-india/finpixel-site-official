@@ -1,6 +1,7 @@
 
 import { Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import Link from "next/link"
 import { ProcessTimeline } from "@/components/pricing/ProcessTimeline"
 import type { Metadata } from 'next'
 
@@ -109,12 +110,15 @@ export default function PricingPage() {
                                 ))}
                             </ul>
 
-                            <Button
-                                variant={tier.popular ? "glow" : "outline"}
-                                className="w-full"
+                            <Link
+                                href="/contact"
+                                className={buttonVariants({
+                                    variant: tier.popular ? "glow" : "outline",
+                                    className: "w-full",
+                                })}
                             >
                                 Get Started
-                            </Button>
+                            </Link>
                         </div>
                     ))}
                 </div>
